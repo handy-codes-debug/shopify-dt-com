@@ -3,22 +3,37 @@
   collection (e.g. Best sellers / New arrivals / On sale).
 {% endcomment %}
 
-{%- assign limit = section.settings.products_to_show -%}
+{%- liquid
+  assign limit = section.settings.products_to_show
+
+  # Each tab shows ONLY its own collection. Tabs without a collection are
+  # skipped on the storefront (shown with a hint in the theme editor).
+  assign tab_ids = ''
+  for block in section.blocks
+    if block.settings.collection != blank or request.design_mode
+      assign tab_ids = tab_ids | append: block.id | append: ','
+    endif
+  endfor
+  assign tab_ids = tab_ids | split: ','
+-%}
 
 <section class="dt-section" data-tabs>
   <div class="dt-container">
     <div class="dt-section-head">
       <h2 class="dt-h2">{{ section.settings.heading | escape }}</h2>
-      {%- if section.blocks.size > 1 -%}
+      {%- if tab_ids.size > 1 -%}
         <div class="dt-segmented" role="tablist" aria-label="Product lists">
           {%- for block in section.blocks -%}
+            {%- unless tab_ids contains block.id -%}{%- continue -%}{%- endunless -%}
+            {%- assign is_first = false -%}
+            {%- if block.id == tab_ids.first -%}{%- assign is_first = true -%}{%- endif -%}
             <button
               type="button"
               role="tab"
               id="Tab-{{ block.id }}"
               aria-controls="Panel-{{ block.id }}"
-              aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
-              {% unless forloop.first %}
+              aria-selected="{{ is_first }}"
+              {% unless is_first %}
                 tabindex="-1"
               {% endunless %}
               {{ block.shopify_attributes }}
@@ -30,22 +45,36 @@
       {%- endif -%}
     </div>
 
+    {%- if tab_ids.size == 0 -%}
+      {%- comment -%} No collections chosen yet: show all products as a single grid. {%- endcomment -%}
+      <div class="dt-product-grid">
+        {%- for product in collections.all.products limit: limit -%}
+          {%- render 'product-card', product: product -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
     {%- for block in section.blocks -%}
-      {%- assign c = block.settings.collection | default: collections.all -%}
+      {%- unless tab_ids contains block.id -%}{%- continue -%}{%- endunless -%}
+      {%- assign c = block.settings.collection -%}
       <div
         class="dt-product-grid"
         role="tabpanel"
         id="Panel-{{ block.id }}"
         aria-labelledby="Tab-{{ block.id }}"
-        {% unless forloop.first %}
+        {% unless block.id == tab_ids.first %}
           hidden
         {% endunless %}
       >
-        {%- for product in c.products limit: limit -%}
-          {%- render 'product-card', product: product -%}
+        {%- if c == blank -%}
+          <p class="dt-empty">Choose a collection for the “{{ block.settings.label | escape }}” tab in the theme editor.</p>
         {%- else -%}
-          <p class="dt-empty">Add products to “{{ c.title | default: block.settings.label | escape }}” to fill this tab.</p>
-        {%- endfor -%}
+          {%- for product in c.products limit: limit -%}
+            {%- render 'product-card', product: product -%}
+          {%- else -%}
+            <p class="dt-empty">No products in “{{ c.title | escape }}” yet.</p>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
     {%- endfor -%}
   </div>
@@ -88,7 +117,7 @@
           "type": "collection",
           "id": "collection",
           "label": "Collection",
-          "info": "Defaults to all products."
+          "info": "This tab shows only products from this collection. Tabs without a collection are hidden on the storefront."
         }
       ]
     }

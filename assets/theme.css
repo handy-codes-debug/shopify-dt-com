@@ -37,6 +37,11 @@
 }
 
 /* ---------- Base ---------- */
+/* Make the hidden attribute win over component display rules (tabs, panels). */
+[hidden] {
+  display: none !important;
+}
+
 html.dt-lock,
 html:has(dialog[open]) {
   overflow: hidden;

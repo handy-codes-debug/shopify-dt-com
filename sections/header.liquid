@@ -1,76 +1,295 @@
-<header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+{% comment %}
+  DealTargets header: announcement bar, logo, product search, account/cart
+  actions, main navigation and the mobile menu drawer.
+{% endcomment %}
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
+{%- liquid
+  assign highlight = section.settings.highlight_title | downcase | strip
+-%}
+
+{%- if section.settings.show_announcement -%}
+  <div class="dt-announcement">
+    <div class="dt-container dt-announcement__inner">
+      {%- if section.settings.announcement_left != blank -%}
+        <span class="dt-announcement__left">{{ section.settings.announcement_left | escape }}</span>
+      {%- endif -%}
+      <p class="dt-announcement__text">
+        {{ section.settings.announcement_text | escape }}
+        {%- if section.settings.announcement_link_label != blank and section.settings.announcement_link != blank %}
+          <a href="{{ section.settings.announcement_link }}">{{ section.settings.announcement_link_label | escape }}</a>
+        {%- endif -%}
+      </p>
+      {%- if section.settings.utility_menu.links.size > 0 -%}
+        <nav class="dt-announcement__utility" aria-label="Utility">
+          {%- for link in section.settings.utility_menu.links -%}
+            <a href="{{ link.url }}">{{ link.title | escape }}</a>
+          {%- endfor -%}
+        </nav>
+      {%- endif -%}
+    </div>
   </div>
+{%- endif -%}
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      <shopify-account menu="{{ section.settings.customer_account_menu }}">
-        {{ 'icon-account.svg' | inline_asset_content }}
-      </shopify-account>
-    {% endif %}
+<header class="dt-header">
+  <div class="dt-container dt-header__main">
+    <button
+      type="button"
+      class="dt-icon-btn dt-header__menu-btn"
+      aria-label="Open menu"
+      aria-haspopup="dialog"
+      aria-controls="MenuDrawer"
+      data-open-dialog="MenuDrawer"
+    >
+      {%- render 'icon', name: 'menu', size: 24, stroke: 2 -%}
+    </button>
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
-
-      {{ 'icon-cart.svg' | inline_asset_content }}
+    <a href="{{ routes.root_url }}" class="dt-logo" aria-label="{{ shop.name | escape }} home">
+      {%- if section.settings.logo -%}
+        {%- assign logo_style = section.settings.logo_width | prepend: 'width: ' | append: 'px' -%}
+        {{
+          section.settings.logo
+          | image_url: width: 600
+          | image_tag: class: 'dt-logo__img', alt: shop.name, style: logo_style, widths: '200, 300, 400, 600'
+        }}
+      {%- else -%}
+        {%- render 'logo' -%}
+      {%- endif -%}
     </a>
+
+    {%- render 'search-form', id_prefix: 'hdr', class: 'dt-header__search' -%}
+
+    <nav class="dt-header__actions" aria-label="Account">
+      {%- if shop.customer_accounts_enabled -%}
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}" class="dt-header__action">
+            {%- render 'icon', name: 'user', size: 22 -%}
+            <span class="dt-header__action-label">{{ customer.first_name | default: 'Account' | escape }}</span>
+          </a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}" class="dt-header__action">
+            {%- render 'icon', name: 'user', size: 22 -%}
+            <span class="dt-header__action-label">Sign in</span>
+          </a>
+        {%- endif -%}
+      {%- endif -%}
+
+      {%- if section.settings.wishlist_url != blank -%}
+        <a href="{{ section.settings.wishlist_url }}" class="dt-header__action dt-header__action--icon" aria-label="Wishlist">
+          {%- render 'icon', name: 'heart', size: 22 -%}
+        </a>
+      {%- endif -%}
+
+      <a
+        href="{{ routes.cart_url }}"
+        class="dt-header__cart"
+        aria-label="Cart, {{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }}"
+      >
+        {%- render 'icon', name: 'cart', size: 22 -%}
+        <span class="dt-header__action-label">Cart</span>
+        <span class="dt-header__cart-count">{{ cart.item_count }}</span>
+      </a>
+    </nav>
   </div>
+
+  <div class="dt-container dt-header__mobile-search">
+    {%- render 'search-form', id_prefix: 'mhdr', compact: true, placeholder: 'Search products or part #' -%}
+  </div>
+
+  <nav class="dt-nav" aria-label="Main">
+    <ul class="dt-container dt-nav__list">
+      {%- if section.settings.show_shop_all -%}
+        <li class="dt-nav__item">
+          <a href="{{ routes.all_products_collection_url }}" class="dt-nav__link dt-nav__link--strong">
+            {%- render 'icon', name: 'menu', size: 18, stroke: 2 -%}
+            Shop all
+          </a>
+        </li>
+      {%- endif -%}
+      {%- for link in section.settings.menu.links -%}
+        {%- assign link_title = link.title | downcase | strip -%}
+        <li class="dt-nav__item{% if link.links.size > 0 %} dt-nav__item--parent{% endif %}">
+          <a
+            href="{{ link.url }}"
+            class="dt-nav__link{% if highlight != blank and link_title == highlight %} dt-nav__link--hot{% endif %}{% if link.active %} is-active{% endif %}"
+            {% if link.current %}
+              aria-current="page"
+            {% endif %}
+          >
+            {{- link.title | escape -}}
+            {%- if link.links.size > 0 -%}
+              {%- render 'icon', name: 'chevron-down', size: 14, stroke: 2.2 -%}
+            {%- endif -%}
+          </a>
+          {%- if link.links.size > 0 -%}
+            <ul class="dt-nav__dropdown">
+              {%- for child in link.links -%}
+                <li>
+                  <a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title | escape }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
 </header>
 
-{% stylesheet %}
-  header {
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header svg {
-    width: 2rem;
-  }
-  header .header__menu,
-  header .header__icons {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
+<dialog id="MenuDrawer" class="dt-drawer" aria-label="Main menu" scroll-lock>
+  <div class="dt-drawer__panel">
+    <div class="dt-drawer__head">
+      <a href="{{ routes.root_url }}" class="dt-logo dt-logo--small">{% render 'logo', show_tld: false %}</a>
+      <button type="button" class="dt-icon-btn dt-icon-btn--soft" aria-label="Close menu" data-close-dialog>
+        {%- render 'icon', name: 'close', size: 20, stroke: 2 -%}
+      </button>
+    </div>
+
+    <div class="dt-drawer__search">
+      {%- render 'search-form', id_prefix: 'drawer', compact: true, placeholder: 'Search products or part #' -%}
+    </div>
+
+    <ul class="dt-drawer__menu">
+      {%- for link in section.settings.menu.links -%}
+        {%- assign link_title = link.title | downcase | strip -%}
+        {%- if highlight != blank and link_title == highlight -%}
+          <li>
+            <a href="{{ link.url }}" class="dt-drawer__link dt-drawer__link--hot">{{ link.title | escape }}</a>
+          </li>
+        {%- elsif link.links.size > 0 -%}
+          <li>
+            <details class="dt-drawer__group">
+              <summary class="dt-drawer__link">
+                {%- render 'icon', guess: link.title, size: 22, stroke: 1.6, class: 'dt-drawer__icon' -%}
+                <span class="dt-drawer__label">{{ link.title | escape }}</span>
+                <span class="dt-drawer__chev" aria-hidden="true">›</span>
+              </summary>
+              <ul class="dt-drawer__sub">
+                <li><a href="{{ link.url }}">All {{ link.title | escape }}</a></li>
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </details>
+          </li>
+        {%- else -%}
+          <li>
+            <a href="{{ link.url }}" class="dt-drawer__link">
+              {%- render 'icon', guess: link.title, size: 22, stroke: 1.6, class: 'dt-drawer__icon' -%}
+              <span class="dt-drawer__label">{{ link.title | escape }}</span>
+              <span class="dt-drawer__chev" aria-hidden="true">›</span>
+            </a>
+          </li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+    <div class="dt-drawer__foot">
+      {%- if shop.customer_accounts_enabled -%}
+        {%- if customer -%}
+          <a href="{{ routes.account_url }}">My account</a>
+        {%- else -%}
+          <a href="{{ routes.account_login_url }}">Sign in / Create account</a>
+        {%- endif -%}
+      {%- endif -%}
+      {%- for link in section.settings.utility_menu.links -%}
+        <a href="{{ link.url }}">{{ link.title | escape }}</a>
+      {%- endfor -%}
+    </div>
+  </div>
+</dialog>
 
 {% schema %}
 {
-  "name": "t:general.header",
+  "name": "Header",
+  "class": "dt-section-header",
   "settings": [
     {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
+      "type": "header",
+      "content": "Announcement bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "announcement_left",
+      "label": "Left text",
+      "default": "All prices in USD"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement",
+      "default": "Free US shipping on orders over $99 · Black Friday starts Nov 27."
+    },
+    {
+      "type": "text",
+      "id": "announcement_link_label",
+      "label": "Link label",
+      "default": "Shop deals"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Link"
     },
     {
       "type": "link_list",
-      "id": "customer_account_menu",
-      "label": "t:labels.customer_account_menu",
-      "default": "customer-account-main-menu"
+      "id": "utility_menu",
+      "label": "Utility menu",
+      "info": "Small links on the right of the announcement bar and at the bottom of the mobile menu (e.g. Track order, Help, Contact)."
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image",
+      "info": "Leave empty to use the built-in DealTargets target mark and wordmark."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 80,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo image width",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shop_all",
+      "label": "Show “Shop all” link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "highlight_title",
+      "label": "Highlight menu item",
+      "info": "Menu item title to show in bold orange (e.g. Deals).",
+      "default": "Deals"
+    },
+    {
+      "type": "url",
+      "id": "wishlist_url",
+      "label": "Wishlist link",
+      "info": "Shows the heart icon when set."
     }
   ]
 }

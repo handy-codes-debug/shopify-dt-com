@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Product — GeForce RTX 5070 Ti 16GB</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#F2F2F3}
+a{color:#E8590C}a:hover{color:#9A3412}
+</style>
+</helmet>
+<div style="font-family: Inter, system-ui, sans-serif; color: #1F2125; background: #F2F2F3; min-height: 100vh">
+<dc-import name="Header" hint-size="100%,170px"></dc-import>
+
+<main style="max-width: 1360px; margin: 0 auto; padding: 24px 32px 80px">
+  <nav aria-label="Breadcrumb" style="font-size: 14px; color: #5A5C61; margin-bottom: 24px">
+    <a href="Main.dc.html" style="color: #5A5C61">Home</a> <span aria-hidden="true">/</span> <a href="Collection.dc.html" style="color: #5A5C61">Graphics Cards</a> <span aria-hidden="true">/</span> <span style="color: #1F2125" aria-current="page">GeForce RTX 5070 Ti 16GB GDDR7</span>
+  </nav>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start">
+    <!-- GALLERY -->
+    <section aria-label="Product media" style="flex: 1 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+      <div style="position: relative; height: 560px; border-radius: 16px; background: #FFFFFF; border: 1px solid #DEDEE0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px">
+        <sc-if value="{{isVideo}}" hint-placeholder-val="{{ false }}">
+          <button type="button" aria-label="Play product video" style="width: 88px; height: 88px; border-radius: 44px; border: 0; background: #1F2125; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg></button>
+        </sc-if>
+        <sc-if value="{{isPhoto}}" hint-placeholder-val="{{ true }}">
+          <svg width="260" height="260" viewBox="0 0 24 24" fill="none" stroke="#1F2125" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Product photo placeholder"><path d="M2 6h20v11H2z M11 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M19 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M5 17v3h9v-3"></path></svg>
+        </sc-if>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5A5C61">{{current.label}} · {{shotIndex}} of 6</span>
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; border-radius: 6px; background: #1F2125; color: #FFFFFF; font-size: 12px; font-weight: 700">Best seller</span>
+        <button type="button" aria-label="Zoom image" style="position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 22px; border: 1px solid #DEDEE0; background: #FFFFFF; color: #1F2125; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M11 18a7 7 0 1 0 0-14a7 7 0 0 0 0 14 M21 21l-5-5 M11 8v6 M8 11h6"></path></svg></button>
+      </div>
+      <div role="list" aria-label="Choose image" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px">
+        <sc-for list="{{shots}}" as="s" hint-placeholder-count="6">
+          <button type="button" role="listitem" aria-label="{{s.label}}" onClick="{{s.pick}}" style="height: 88px; border-radius: 10px; background: #FFFFFF; border: {{s.border}}; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; color: #1F2125; font: 500 11px Inter, sans-serif">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{s.d}}"></path></svg>
+            {{s.short}}
+          </button>
+        </sc-for>
+      </div>
+    </section>
+
+    <!-- BUY BOX -->
+    <section aria-label="Product details" style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; color: #5A5C61">[Brand]</span>
+        <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 36px; line-height: 1.15; letter-spacing: -0.01em">GeForce RTX 5070 Ti 16GB GDDR7 Graphics Card</h1>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; color: #5A5C61">
+          <a href="#reviews" style="color: #1F2125; text-decoration: none"><span aria-hidden="true" style="letter-spacing: 1px">★★★★★</span> [rating] · [N] reviews</a>
+          <span style="font-family: 'JetBrains Mono', monospace">SKU {{variant.sku}}</span>
+          <span style="font-family: 'JetBrains Mono', monospace">MPN [MPN]</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap">
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 36px">{{variant.price}}</span>
+        <span style="font-size: 14px; color: #5A5C61">USD · sales tax calculated at checkout</span>
+      </div>
+      <p style="margin: 0; font-size: 14px; color: #3E4045">Or 4 interest-free payments with Shop Pay Installments (if enabled)</p>
+
+      <fieldset style="border: 0; margin: 0; padding: 0">
+        <legend style="font-weight: 600; font-size: 15px; margin-bottom: 10px; padding: 0">Edition: <span style="font-weight: 500">{{variant.name}}</span></legend>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px">
+          <sc-for list="{{variants}}" as="v" hint-placeholder-count="3">
+            <button type="button" aria-pressed="{{v.selected}}" onClick="{{v.pick}}" style="min-height: 48px; padding: 0 18px; border-radius: 10px; border: {{v.border}}; background: {{v.bg}}; font: 600 14px Inter, sans-serif; color: #1F2125; cursor: pointer">{{v.name}}</button>
+          </sc-for>
+        </div>
+      </fieldset>
+
+      <div style="display: flex; flex-direction: column; gap: 8px; padding: 16px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DEDEE0">
+        <span style="display: flex; align-items: center; gap: 8px; font-weight: 600; color: {{variant.stockColor}}"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 5px; background: {{variant.stockColor}}"></span>{{variant.stock}}</span>
+        <span style="font-size: 14px; color: #3E4045">Ships in [1–2] business days · Free shipping over $[THRESHOLD]</span>
+      </div>
+
+      <div style="display: flex; gap: 12px; flex-wrap: wrap">
+        <div role="group" aria-label="Quantity" style="display: flex; align-items: center; border: 1.5px solid #C9C9CC; border-radius: 10px; background: #FFFFFF">
+          <button type="button" aria-label="Decrease quantity" onClick="{{dec}}" style="width: 48px; height: 52px; border: 0; background: transparent; font: 600 20px Inter, sans-serif; color: #1F2125; cursor: pointer">−</button>
+          <span aria-live="polite" style="min-width: 36px; text-align: center; font-weight: 600; font-size: 16px">{{qty}}</span>
+          <button type="button" aria-label="Increase quantity" onClick="{{inc}}" style="width: 48px; height: 52px; border: 0; background: transparent; font: 600 20px Inter, sans-serif; color: #1F2125; cursor: pointer">+</button>
+        </div>
+        <button type="button" onClick="{{add}}" style="flex: 1 1 220px; min-height: 52px; border: 0; border-radius: 10px; background: #FF6B1A; color: #1F2125; font: 600 16px Inter, sans-serif; cursor: pointer">{{addLabel}}</button>
+      </div>
+      <button type="button" style="min-height: 52px; border: 0; border-radius: 10px; background: #1F2125; color: #FFFFFF; font: 600 16px Inter, sans-serif; cursor: pointer">Buy it now</button>
+      <p style="margin: -8px 0 0; font-size: 13px; color: #5A5C61; text-align: center">Shopify's dynamic checkout button — shows Shop Pay, Apple Pay or Google Pay when available. <a href="Policies.dc.html">More payment options</a></p>
+
+      <ul style="margin: 0; padding: 20px 0 0; border-top: 1px solid #DEDEE0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C2410C; font-weight: 700">→</span>16GB GDDR7 memory on a 256-bit bus</li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C2410C; font-weight: 700">→</span>PCIe 5.0 ×16 · DisplayPort 2.1b and HDMI 2.1b outputs</li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C2410C; font-weight: 700">→</span>[Card length] mm · [slot width]-slot cooler · fits most mid-tower cases</li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C2410C; font-weight: 700">→</span>Recommended PSU: 750W · 16-pin (12V-2×6) power connector</li>
+      </ul>
+
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+        <div style="padding: 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #DEDEE0; font-size: 13px; line-height: 1.4"><strong style="display: block; font-size: 14px">[X]-year warranty</strong>Manufacturer-backed</div>
+        <div style="padding: 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #DEDEE0; font-size: 13px; line-height: 1.4"><strong style="display: block; font-size: 14px">[X]-day returns</strong><a href="Policies.dc.html">See return policy</a></div>
+        <div style="padding: 14px; border-radius: 10px; background: #FFFFFF; border: 1px solid #DEDEE0; font-size: 13px; line-height: 1.4"><strong style="display: block; font-size: 14px">Compatibility check</strong><a href="About.dc.html">Ask an expert</a></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- TABS -->
+  <section style="margin-top: 64px; background: #FFFFFF; border: 1px solid #DEDEE0; border-radius: 16px; overflow: hidden">
+    <div role="tablist" aria-label="Product information" style="display: flex; overflow-x: auto; border-bottom: 1px solid #DEDEE0; padding: 0 16px">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+        <button type="button" role="tab" aria-selected="{{t.selected}}" onClick="{{t.pick}}" style="min-height: 56px; padding: 0 18px; border: 0; border-bottom: {{t.underline}}; background: transparent; font: 600 15px Inter, sans-serif; color: {{t.color}}; cursor: pointer; white-space: nowrap">{{t.name}}</button>
+      </sc-for>
+    </div>
+    <div role="tabpanel" style="padding: 32px">
+      <sc-if value="{{tabDesc}}" hint-placeholder-val="{{ true }}">
+        <div style="max-width: 820px; display: flex; flex-direction: column; gap: 14px; line-height: 1.7; color: #303236">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; color: #1F2125">High-refresh 1440p and capable 4K</h2>
+          <p style="margin: 0">[Product description from your supplier or written in-house: who it's for, what it's good at, and what makes this partner card different — cooler design, factory overclock, noise levels.]</p>
+          <p style="margin: 0">[Second paragraph: what's in the box, software, and anything a buyer should check before ordering, like case clearance or power connectors.]</p>
+          <div style="height: 320px; border-radius: 12px; background: #E9E9EA; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5A5C61">Lifestyle image or embedded video · 1600×900</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{tabSpecs}}" hint-placeholder-val="{{ false }}">
+        <table style="width: 100%; max-width: 860px; border-collapse: collapse; font-size: 15px">
+          <caption style="text-align: left; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 22px; margin-bottom: 16px">Specifications</caption>
+          <tbody>
+            <sc-for list="{{specs}}" as="r" hint-placeholder-count="10">
+              <tr style="border-bottom: 1px solid #DEDEE0"><th scope="row" style="text-align: left; padding: 12px 16px 12px 0; width: 40%; color: #5A5C61; font-weight: 500">{{r.k}}</th><td style="padding: 12px 0; font-family: 'JetBrains Mono', monospace; font-size: 14px">{{r.v}}</td></tr>
+            </sc-for>
+          </tbody>
+        </table>
+      </sc-if>
+      <sc-if value="{{tabShip}}" hint-placeholder-val="{{ false }}">
+        <div style="max-width: 820px; display: flex; flex-direction: column; gap: 12px; line-height: 1.7; color: #303236">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px; color: #1F2125">Shipping &amp; returns</h2>
+          <p style="margin: 0"><strong>Shipping:</strong> Orders placed before [2 PM ET] on business days ship the same day. Free standard shipping over $[THRESHOLD]; expedited rates shown at checkout.</p>
+          <p style="margin: 0"><strong>Returns:</strong> Unopened items within [X] days. Opened graphics cards are subject to [your open-box terms]. <a href="Policies.dc.html">Read the full return policy</a>.</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{tabFaq}}" hint-placeholder-val="{{ false }}">
+        <div style="max-width: 820px; display: flex; flex-direction: column; gap: 18px; line-height: 1.6">
+          <div><h3 style="margin: 0 0 4px; font-size: 16px">Will this fit my case?</h3><p style="margin: 0; color: #3E4045">Check your case's maximum GPU length against [card length] mm. Send us your case model and we'll confirm.</p></div>
+          <div><h3 style="margin: 0 0 4px; font-size: 16px">Do I need a new power supply?</h3><p style="margin: 0; color: #3E4045">A quality 750W unit is recommended. If yours lacks a 16-pin connector, use the included adapter.</p></div>
+          <div><h3 style="margin: 0 0 4px; font-size: 16px">Is warranty handled by you or the manufacturer?</h3><p style="margin: 0; color: #3E4045">[Your warranty process — e.g. we handle the first [30] days, then the manufacturer.]</p></div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <!-- PAIR IT WITH -->
+  <section style="margin-top: 64px">
+    <h2 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 32px">Pair it with</h2>
+    <p style="margin: 0 0 24px; color: #5A5C61">Parts that match this card's power and size requirements.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px">
+      <sc-for list="{{pairs}}" as="p" hint-placeholder-count="4">
+        <dc-import name="ProductCard" item="{{p}}" hint-size="100%,470px"></dc-import>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" style="margin-top: 64px; background: #FFFFFF; border: 1px solid #DEDEE0; border-radius: 16px; padding: 32px; display: flex; flex-wrap: wrap; gap: 40px">
+    <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 10px">
+      <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 28px">Customer reviews</h2>
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 48px">[4.x]</span>
+      <span aria-hidden="true" style="letter-spacing: 2px; font-size: 18px">★★★★★</span>
+      <span style="color: #5A5C61; font-size: 14px">Based on [N] reviews</span>
+      <button type="button" style="align-self: flex-start; margin-top: 8px; min-height: 44px; padding: 0 20px; border-radius: 8px; border: 1.5px solid #1F2125; background: #FFFFFF; font: 600 14px Inter, sans-serif; color: #1F2125; cursor: pointer">Write a review</button>
+    </div>
+    <div style="flex: 999 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+      <article style="border-bottom: 1px solid #DEDEE0; padding-bottom: 20px">
+        <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap"><span aria-label="5 out of 5 stars" style="letter-spacing: 1px">★★★★★</span><span style="font-size: 13px; color: #5A5C61">[Date]</span></div>
+        <h3 style="margin: 8px 0 6px; font-size: 16px">[Review headline]</h3>
+        <p style="margin: 0; color: #3E4045; line-height: 1.6">[Review body from your reviews app.]</p>
+        <span style="display: block; margin-top: 8px; font-size: 13px; color: #5A5C61">[Customer name] · Verified buyer · Edition: OC</span>
+      </article>
+      <article>
+        <div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap"><span aria-label="4 out of 5 stars" style="letter-spacing: 1px">★★★★☆</span><span style="font-size: 13px; color: #5A5C61">[Date]</span></div>
+        <h3 style="margin: 8px 0 6px; font-size: 16px">[Review headline]</h3>
+        <p style="margin: 0; color: #3E4045; line-height: 1.6">[Review body from your reviews app.]</p>
+        <span style="display: block; margin-top: 8px; font-size: 13px; color: #5A5C61">[Customer name] · Verified buyer · Edition: Standard</span>
+      </article>
+    </div>
+  </section>
+</main>
+
+<dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { shot: 0, v: 1, qty: 1, tab: 0, added: false };
+  }
+  renderVals() {
+    const s = this.state;
+    const gpu = 'M2 6h20v11H2z M11 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M19 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M5 17v3h9v-3';
+    const shotsRaw = [
+      { label: 'Front view', short: 'Front', d: gpu },
+      { label: 'Angled view', short: 'Angle', d: gpu },
+      { label: 'Backplate', short: 'Back', d: 'M3 6h18v12H3z M7 10h10 M7 14h6' },
+      { label: 'Display outputs', short: 'Ports', d: 'M4 8h16v8H4z M7 11h3v2H7z M12 11h2v2h-2z M16 11h2v2h-2z' },
+      { label: 'In the box', short: 'Box', d: 'M21 8l-9-5l-9 5v8l9 5l9-5z M3 8l9 5l9-5 M12 13v8' },
+      { label: 'Product video', short: 'Video', d: 'M8 5v14l11-7z', video: true }
+    ];
+    const shots = shotsRaw.map((x, i) => Object.assign({}, x, {
+      border: i === s.shot ? '2px solid #E8590C' : '1px solid #DEDEE0',
+      pick: () => this.setState({ shot: i })
+    }));
+    const vRaw = [
+      { name: 'Standard', price: '$[PRICE]', sku: 'DT-GPU-5070TI-STD', stock: 'In stock', stockColor: '#15803D' },
+      { name: 'OC Edition', price: '$[PRICE + OC]', sku: 'DT-GPU-5070TI-OC', stock: 'In stock', stockColor: '#15803D' },
+      { name: 'White OC', price: '$[PRICE + WHITE]', sku: 'DT-GPU-5070TI-WHT', stock: 'Only [3] left', stockColor: '#B45309' }
+    ];
+    const variants = vRaw.map((x, i) => Object.assign({}, x, {
+      selected: i === s.v,
+      border: i === s.v ? '2px solid #E8590C' : '1px solid #C9C9CC',
+      bg: i === s.v ? '#FFF1E8' : '#FFFFFF',
+      pick: () => this.setState({ v: i, added: false })
+    }));
+    const tabNames = ['Description', 'Specifications', 'Shipping & returns', 'Questions'];
+    const tabs = tabNames.map((n, i) => ({
+      name: n, selected: i === s.tab,
+      underline: i === s.tab ? '3px solid #E8590C' : '3px solid transparent',
+      color: i === s.tab ? '#1F2125' : '#5A5C61',
+      pick: () => this.setState({ tab: i })
+    }));
+    const P = (brand, name, specs, d, extra) => Object.assign({ brand, name, specs, price: '$[PRICE]', badge: '', stock: 'In stock', d }, extra || {});
+    return {
+      shots,
+      current: shotsRaw[s.shot],
+      shotIndex: s.shot + 1,
+      isVideo: !!shotsRaw[s.shot].video,
+      isPhoto: !shotsRaw[s.shot].video,
+      variants,
+      variant: vRaw[s.v],
+      qty: s.qty,
+      inc: () => this.setState({ qty: Math.min(s.qty + 1, 10), added: false }),
+      dec: () => this.setState({ qty: Math.max(s.qty - 1, 1), added: false }),
+      add: () => this.setState({ added: true }),
+      addLabel: s.added ? 'Added — ' + s.qty + ' in cart ✓' : 'Add to cart',
+      tabs,
+      tabDesc: s.tab === 0, tabSpecs: s.tab === 1, tabShip: s.tab === 2, tabFaq: s.tab === 3,
+      specs: [
+        { k: 'GPU', v: 'NVIDIA GeForce RTX 5070 Ti' },
+        { k: 'Memory', v: '16GB GDDR7, 256-bit' },
+        { k: 'Interface', v: 'PCIe 5.0 ×16' },
+        { k: 'Boost clock', v: '[MHz]' },
+        { k: 'Outputs', v: '3× DisplayPort 2.1b, 1× HDMI 2.1b' },
+        { k: 'Power connector', v: '1× 16-pin (12V-2×6)' },
+        { k: 'Total graphics power', v: '300W' },
+        { k: 'Recommended PSU', v: '750W' },
+        { k: 'Dimensions', v: '[L × W × H] mm' },
+        { k: 'Warranty', v: '[X] years' }
+      ],
+      pairs: [
+        P('[Brand]', '850W 80+ Gold Fully Modular ATX 3.1 PSU', 'ATX 3.1 · 12V-2×6 · 850W', 'M3 5h18v14H3z M14 12a4 4 0 1 1-8 0a4 4 0 1 1 8 0 M10 9v3 M17 9h1 M17 12h1 M17 15h1'),
+        P('[Brand]', 'Mid-Tower Airflow ATX Case, Tempered Glass', 'ATX · GPU up to [400] mm', 'M7 2h10v20H7z M10 5h4 M10 8h4 M14 17a2 2 0 1 1-4 0a2 2 0 1 1 4 0'),
+        P('[Brand]', '32GB (2×16GB) DDR5-6000 CL30 Kit', 'DDR5 · 1.35V · EXPO/XMP', 'M2 8h20v8H2z M5 11h2v2H5z M9 11h2v2H9z M13 11h2v2h-2z M17 11h2v2h-2z M4 16v3 M20 16v3 M12 16v2', { compare: '$[WAS]', badge: 'Sale' }),
+        P('[Brand]', 'Anti-Sag GPU Support Bracket', 'Adjustable · Tool-free', 'M4 20h16 M8 20V8 M8 8h10')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

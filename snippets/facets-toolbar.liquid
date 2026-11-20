@@ -1,0 +1,105 @@
+{%- doc -%}
+  Results toolbar: mobile filter button, active filter chips, result count,
+  sort select and grid/list view toggle.
+
+  @param {object} results - The collection or search object
+  @param {object} paginate - The paginate object
+  @param {string} [sort_by] - Current sort value
+  @param {object[]} [sort_options] - Available sort options
+
+  @example
+  {% render 'facets-toolbar', results: collection, paginate: paginate, sort_by: collection.sort_by, sort_options: collection.sort_options %}
+{%- enddoc -%}
+
+{%- liquid
+  assign active_count = 0
+  for filter in results.filters
+    if filter.type == 'price_range'
+      if filter.min_value.value or filter.max_value.value
+        assign active_count = active_count | plus: 1
+      endif
+    else
+      assign active_count = active_count | plus: filter.active_values.size
+    endif
+  endfor
+
+  assign first_item = paginate.current_offset | plus: 1
+  assign last_item = paginate.current_offset | plus: paginate.page_size
+  if last_item > paginate.items
+    assign last_item = paginate.items
+  endif
+-%}
+<div class="dt-toolbar">
+  <div class="dt-toolbar__left">
+    {%- if results.filters.size > 0 -%}
+      <button
+        type="button"
+        class="dt-btn dt-btn--outline dt-toolbar__filter-btn"
+        data-filters-open
+        aria-controls="FiltersDrawer"
+      >
+        {%- render 'icon', name: 'filter', size: 18, stroke: 2 -%}
+        Filters
+        {%- if active_count > 0 %} ({{ active_count }}){% endif -%}
+      </button>
+    {%- endif -%}
+
+    {%- if active_count > 0 -%}
+      <ul class="dt-chips" aria-label="Active filters">
+        {%- for filter in results.filters -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value or filter.max_value.value -%}
+              <li>
+                <a href="{{ filter.url_to_remove }}" class="dt-chip" aria-label="Remove price filter">
+                  {{- filter.min_value.value | default: 0 | money_without_trailing_zeros }}–
+                  {{- filter.max_value.value | default: filter.range_max | money_without_trailing_zeros -}}
+                  <span aria-hidden="true">✕</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- else -%}
+            {%- for value in filter.active_values -%}
+              <li>
+                <a href="{{ value.url_to_remove }}" class="dt-chip" aria-label="Remove filter: {{ value.label | escape }}">
+                  {{- value.label | escape }}
+                  <span aria-hidden="true">✕</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+
+  <div class="dt-toolbar__right">
+    {%- if paginate.items > 0 -%}
+      <span class="dt-toolbar__count">Showing {{ first_item }}–{{ last_item }} of {{ paginate.items }}</span>
+    {%- endif -%}
+
+    {%- if sort_options.size > 0 -%}
+      <label for="SortBy" class="dt-toolbar__label">Sort</label>
+      <select id="SortBy" class="dt-select" data-sort-select>
+        {%- for option in sort_options -%}
+          <option
+            value="{{ option.value | escape }}"
+            {% if option.value == sort_by %}
+              selected
+            {% endif %}
+          >
+            {{ option.name | escape }}
+          </option>
+        {%- endfor -%}
+      </select>
+    {%- endif -%}
+
+    <div class="dt-view-toggle" role="group" aria-label="View">
+      <button type="button" class="is-active" data-view="grid" aria-label="Grid view" aria-pressed="true">
+        {%- render 'icon', name: 'grid', size: 18, stroke: 2 -%}
+      </button>
+      <button type="button" data-view="list" aria-label="List view" aria-pressed="false">
+        {%- render 'icon', name: 'list', size: 18, stroke: 2 -%}
+      </button>
+    </div>
+  </div>
+</div>

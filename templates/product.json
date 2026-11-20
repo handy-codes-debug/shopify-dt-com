@@ -11,10 +11,50 @@
   "sections": {
     "main": {
       "type": "product",
+      "blocks": {
+        "faq1": {
+          "type": "faq",
+          "settings": {
+            "question": "Will this fit my case?",
+            "answer": "<p>Check your case's maximum clearance against the dimensions in the specifications. Send us your case model and we'll confirm.</p>"
+          }
+        },
+        "faq2": {
+          "type": "faq",
+          "settings": {
+            "question": "Do I need a new power supply?",
+            "answer": "<p>Check the recommended PSU wattage and power connector in the specifications. Not sure? Send us your parts list.</p>"
+          }
+        },
+        "faq3": {
+          "type": "faq",
+          "settings": {
+            "question": "Is warranty handled by you or the manufacturer?",
+            "answer": "<p>We handle the first 30 days, then the manufacturer's warranty applies.</p>"
+          }
+        }
+      },
+      "block_order": ["faq1", "faq2", "faq3"],
       "settings": {}
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "Pair it with",
+        "intent": "related",
+        "limit": 4
+      }
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "settings": {
+        "heading": "Customer reviews"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "recommendations",
+    "reviews"
   ]
 }

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Store policies — DealTargets</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#F2F2F3}
+a{color:#E8590C}a:hover{color:#9A3412}
+</style>
+</helmet>
+<div style="font-family: Inter, system-ui, sans-serif; color: #1F2125; background: #F2F2F3; min-height: 100vh">
+<dc-import name="Header" hint-size="100%,170px"></dc-import>
+
+<main style="max-width: 1360px; margin: 0 auto; padding: 48px 32px 96px">
+  <nav aria-label="Breadcrumb" style="font-size: 14px; color: #5A5C61; margin-bottom: 16px"><a href="Main.dc.html" style="color: #5A5C61">Home</a> <span aria-hidden="true">/</span> <span style="color: #1F2125">Policies</span></nav>
+  <h1 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 48px; letter-spacing: -0.02em">Store policies</h1>
+  <p style="margin: 0 0 40px; color: #5A5C61; font-size: 16px">Plain-language summaries first, full terms below. Last updated [date].</p>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start">
+    <nav aria-label="Policies" style="flex: 1 1 240px; max-width: 280px; background: #FFFFFF; border: 1px solid #DEDEE0; border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 4px; box-sizing: border-box">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+        <button type="button" aria-current="{{t.current}}" onClick="{{t.pick}}" style="min-height: 48px; padding: 0 14px; border: 0; border-radius: 8px; text-align: left; background: {{t.bg}}; color: {{t.color}}; font: 600 15px Inter, sans-serif; cursor: pointer">{{t.name}}</button>
+      </sc-for>
+    </nav>
+
+    <article style="flex: 999 1 560px; min-width: 0; background: #FFFFFF; border: 1px solid #DEDEE0; border-radius: 16px; padding: 40px; box-sizing: border-box; line-height: 1.7; color: #303236">
+      <sc-if value="{{isShip}}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; flex-direction: column; gap: 18px; max-width: 820px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 32px; color: #1F2125">Shipping policy</h2>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+            <div style="padding: 16px; border-radius: 10px; background: #F2F2F3"><strong style="display: block; color: #1F2125">Same-day dispatch</strong>Orders before [2 PM ET], Mon–Fri</div>
+            <div style="padding: 16px; border-radius: 10px; background: #F2F2F3"><strong style="display: block; color: #1F2125">Free over $[THRESHOLD]</strong>Standard shipping, contiguous US</div>
+            <div style="padding: 16px; border-radius: 10px; background: #F2F2F3"><strong style="display: block; color: #1F2125">Tracked delivery</strong>Tracking emailed when it ships</div>
+          </div>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">Rates and delivery times</h3>
+          <div style="overflow-x: auto; border: 1px solid #DEDEE0; border-radius: 10px">
+            <table style="width: 100%; border-collapse: collapse; font-size: 15px; min-width: 520px">
+              <thead><tr style="background: #F2F2F3; text-align: left"><th scope="col" style="padding: 12px 16px">Region</th><th scope="col" style="padding: 12px 16px">Standard</th><th scope="col" style="padding: 12px 16px">Expedited</th><th scope="col" style="padding: 12px 16px">Typical delivery</th></tr></thead>
+              <tbody>
+                <tr style="border-top: 1px solid #DEDEE0"><td style="padding: 12px 16px">Contiguous US</td><td style="padding: 12px 16px">$[rate]</td><td style="padding: 12px 16px">$[rate]</td><td style="padding: 12px 16px">[3–5] business days</td></tr>
+                <tr style="border-top: 1px solid #DEDEE0"><td style="padding: 12px 16px">Alaska &amp; Hawaii</td><td style="padding: 12px 16px">$[rate]</td><td style="padding: 12px 16px">$[rate]</td><td style="padding: 12px 16px">[5–10] business days</td></tr>
+                <tr style="border-top: 1px solid #DEDEE0"><td style="padding: 12px 16px">US territories</td><td style="padding: 12px 16px">$[rate]</td><td style="padding: 12px 16px">$[rate]</td><td style="padding: 12px 16px">[7–14] business days</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="margin: 0">Carriers: [USPS, UPS, FedEx]. Orders over $[value] require a signature. Tracking is emailed as soon as your order ships.</p>
+          <p style="margin: 0">[Full shipping terms — damaged-in-transit claims, address changes, P.O. boxes.]</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{isRefund}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 820px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 32px; color: #1F2125">Refund &amp; return policy</h2>
+          <div style="padding: 18px 20px; border-radius: 10px; background: #FFF1E8; color: #1F2125"><strong>In short:</strong> unopened items within [X] days for a full refund. Opened items [are accepted within X days, subject to a Y% restocking fee / are exchange-only]. Dead-on-arrival parts are replaced at no cost.</div>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">How to start a return</h3>
+          <ol style="margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px">
+            <li>Contact us with your order number and the reason for return.</li>
+            <li>We email an RMA number and return label (or instructions).</li>
+            <li>Pack the item in its original box with all accessories.</li>
+            <li>Refunds go to your original payment method within [X] business days of inspection.</li>
+          </ol>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">Non-returnable items</h3>
+          <p style="margin: 0">[e.g. software keys, opened thermal paste, clearance items marked final sale.]</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{isPrivacy}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 820px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 32px; color: #1F2125">Privacy policy</h2>
+          <p style="margin: 0">[Generate the base text with Shopify's privacy policy template, then review it against applicable US state privacy laws, such as California's CCPA/CPRA.]</p>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">What we collect</h3>
+          <p style="margin: 0">[Contact, shipping and order details; device and browsing data via cookies.]</p>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">How we use it</h3>
+          <p style="margin: 0">[Fulfilling orders, customer support, fraud prevention and — with consent — marketing emails.]</p>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">Your choices</h3>
+          <p style="margin: 0">[Access, correction, deletion and unsubscribe requests: privacy@dealtargets.com]</p>
+        </div>
+      </sc-if>
+      <sc-if value="{{isTerms}}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; flex-direction: column; gap: 16px; max-width: 820px">
+          <h2 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 32px; color: #1F2125">Terms of service</h2>
+          <p style="margin: 0">[Generate the base text with Shopify's terms of service template and have it reviewed.]</p>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">Pricing and availability</h3>
+          <p style="margin: 0">[Prices in USD; we reserve the right to cancel orders with pricing errors; stock is not reserved until checkout.]</p>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">Warranty</h3>
+          <p style="margin: 0">[Manufacturer warranty terms and how DealTargets assists.]</p>
+          <h3 style="margin: 8px 0 0; font-size: 18px; color: #1F2125">Governing law</h3>
+          <p style="margin: 0">[Your state and the laws of the United States.]</p>
+        </div>
+      </sc-if>
+      <p style="margin: 32px 0 0; padding-top: 20px; border-top: 1px solid #DEDEE0; font-size: 14px; color: #5A5C61">Questions about this policy? <a href="About.dc.html">Contact us</a>.</p>
+    </article>
+  </div>
+</main>
+
+<dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2500}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 0 };
+  }
+  renderVals() {
+    const names = ['Shipping policy', 'Refund & returns', 'Privacy policy', 'Terms of service'];
+    const t = this.state.tab;
+    return {
+      tabs: names.map((n, i) => ({
+        name: n, current: i === t ? 'page' : 'false',
+        bg: i === t ? '#1F2125' : 'transparent',
+        color: i === t ? '#FFFFFF' : '#1F2125',
+        pick: () => this.setState({ tab: i })
+      })),
+      isShip: t === 0, isRefund: t === 1, isPrivacy: t === 2, isTerms: t === 3
+    };
+  }
+}
+</script>
+</body>
+</html>

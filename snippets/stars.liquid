@@ -1,0 +1,24 @@
+{%- doc -%}
+  Renders a star rating (★★★★☆) with an accessible label.
+
+  @param {number} rating - Rating value
+  @param {number} [scale] - Maximum rating (default 5)
+  @param {string} [class] - Extra CSS class
+
+  @example
+  {% render 'stars', rating: 4.5 %}
+{%- enddoc -%}
+
+{%- liquid
+  assign max = scale | default: 5 | times: 1
+  assign value = rating | times: 1.0
+  assign rounded = value | round
+  if max != 5 and max > 0
+    assign rounded = value | divided_by: max | times: 5 | round
+  endif
+-%}
+<span class="dt-stars{% if class != blank %} {{ class }}{% endif %}" role="img" aria-label="{{ value | round: 1 }} out of {{ max }} stars">
+  {%- for i in (1..5) -%}
+    {%- if i <= rounded -%}★{%- else -%}☆{%- endif -%}
+  {%- endfor -%}
+</span>

@@ -1,0 +1,129 @@
+{%- doc -%}
+  Renders a DealTargets line icon.
+
+  Pass `name` for a specific icon, or `guess` (e.g. a collection or product
+  type title) to pick a matching component icon automatically.
+
+  @param {string} [name] - Icon name (gpu, cpu, motherboard, ram, ssd, psu, case, cooling, truck, shield, ...)
+  @param {string} [guess] - Text used to guess a component icon when `name` is blank
+  @param {number} [size] - Width/height in px (default 24)
+  @param {number} [stroke] - Stroke width (default 1.8)
+  @param {string} [class] - Extra CSS class
+
+  @example
+  {% render 'icon', name: 'cart', size: 22 %}
+  {% render 'icon', guess: collection.title, size: 96, stroke: 1.1 %}
+{%- enddoc -%}
+
+{%- liquid
+  assign icon_name = name
+  if icon_name == blank
+    assign g = guess | downcase
+    if g contains 'graphic' or g contains 'gpu' or g contains 'video card'
+      assign icon_name = 'gpu'
+    elsif g contains 'processor' or g contains 'cpu'
+      assign icon_name = 'cpu'
+    elsif g contains 'mother' or g contains 'mainboard'
+      assign icon_name = 'motherboard'
+    elsif g contains 'memory' or g contains 'ram'
+      assign icon_name = 'ram'
+    elsif g contains 'storage' or g contains 'ssd' or g contains 'drive' or g contains 'nvme'
+      assign icon_name = 'ssd'
+    elsif g contains 'power' or g contains 'psu'
+      assign icon_name = 'psu'
+    elsif g contains 'cool' or g contains 'fan'
+      assign icon_name = 'cooling'
+    elsif g contains 'case' or g contains 'chassis'
+      assign icon_name = 'case'
+    elsif g contains 'deal' or g contains 'sale'
+      assign icon_name = 'tag'
+    else
+      assign icon_name = 'box'
+    endif
+  endif
+
+  case icon_name
+    when 'gpu'
+      assign d = 'M2 6h20v11H2z M11 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M19 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M5 17v3h9v-3'
+    when 'cpu'
+      assign d = 'M6 6h12v12H6z M9 9h6v6H9z M9 2v4 M15 2v4 M9 18v4 M15 18v4 M2 9h4 M2 15h4 M18 9h4 M18 15h4'
+    when 'motherboard'
+      assign d = 'M3 3h18v18H3z M7 7h5v5H7z M15 7h2 M15 10h2 M7 16h10 M7 19h4 M16 13v1'
+    when 'ram'
+      assign d = 'M2 8h20v8H2z M5 11h2v2H5z M9 11h2v2H9z M13 11h2v2h-2z M17 11h2v2h-2z M4 16v3 M20 16v3 M12 16v2'
+    when 'ssd'
+      assign d = 'M3 8h18v8H3z M6 11h5v2H6z M14 11h1 M17 11h1 M14 13h1 M17 13h1 M21 10.5v3'
+    when 'psu'
+      assign d = 'M3 5h18v14H3z M14 12a4 4 0 1 1-8 0a4 4 0 1 1 8 0 M10 9v3 M17 9h1 M17 12h1 M17 15h1'
+    when 'case'
+      assign d = 'M7 2h10v20H7z M10 5h4 M10 8h4 M14 17a2 2 0 1 1-4 0a2 2 0 1 1 4 0'
+    when 'cooling'
+      assign d = 'M3 3h18v18H3z M14 12a2 2 0 1 1-4 0a2 2 0 1 1 4 0 M12 10c0-4 4-5 5-3 M14 12c4 0 5 4 3 5 M12 14c0 4-4 5-5 3 M10 12c-4 0-5-4-3-5'
+    when 'truck'
+      assign d = 'M1 6h13v10H1z M14 9h4l3 3v4h-7 M5.5 19a2 2 0 1 0 0-4a2 2 0 0 0 0 4 M17.5 19a2 2 0 1 0 0-4a2 2 0 0 0 0 4'
+    when 'shield'
+      assign d = 'M12 2l8 4v6c0 5-3.5 8.5-8 10c-4.5-1.5-8-5-8-10V6z M8.5 12l2.5 2.5l4.5-5'
+    when 'return'
+      assign d = 'M3 12a9 9 0 1 0 3-6.7 M3 4v5h5'
+    when 'bell'
+      assign d = 'M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.9 1.9 0 0 0 3.4 0'
+    when 'chat'
+      assign d = 'M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'
+    when 'checklist'
+      assign d = 'M9 11l3 3l8-8 M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9'
+    when 'building'
+      assign d = 'M3 21h18 M5 21V7l7-4l7 4v14 M9 21v-6h6v6 M9 10h.01 M15 10h.01'
+    when 'book'
+      assign d = 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'
+    when 'tag'
+      assign d = 'M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z M7 7h.01'
+    when 'search'
+      assign d = 'M11 18a7 7 0 1 0 0-14a7 7 0 0 0 0 14 M21 21l-5-5'
+    when 'zoom'
+      assign d = 'M11 18a7 7 0 1 0 0-14a7 7 0 0 0 0 14 M21 21l-5-5 M11 8v6 M8 11h6'
+    when 'user'
+      assign d = 'M20 21a8 8 0 0 0-16 0 M12 13a5 5 0 1 0 0-10a5 5 0 0 0 0 10'
+    when 'heart'
+      assign d = 'M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6l1-1a5.5 5.5 0 0 0 0-7.8z'
+    when 'cart'
+      assign d = 'M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h8.2a2 2 0 0 0 2-1.5L21 8H6 M9.5 21a1 1 0 1 0 0-2a1 1 0 0 0 0 2 M17.5 21a1 1 0 1 0 0-2a1 1 0 0 0 0 2'
+    when 'menu'
+      assign d = 'M4 6h16 M4 12h16 M4 18h16'
+    when 'close'
+      assign d = 'M6 6l12 12 M18 6L6 18'
+    when 'grid'
+      assign d = 'M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z'
+    when 'list'
+      assign d = 'M8 6h13 M8 12h13 M8 18h13 M3 6h.01 M3 12h.01 M3 18h.01'
+    when 'filter'
+      assign d = 'M3 5h18 M6 12h12 M10 19h4'
+    when 'chevron-down'
+      assign d = 'M6 9l6 6l6-6'
+    when 'chevron-right'
+      assign d = 'M9 6l6 6l-6 6'
+    when 'arrow-right'
+      assign d = 'M5 12h14 M13 6l6 6l-6 6'
+    when 'play'
+      assign d = 'M8 5v14l11-7z'
+    else
+      assign d = 'M21 8l-9-5l-9 5v8l9 5l9-5z M3 8l9 5l9-5 M12 13v8'
+  endcase
+
+  assign icon_size = size | default: 24
+  assign icon_stroke = stroke | default: 1.8
+-%}
+<svg
+  class="dt-icon{% if class != blank %} {{ class }}{% endif %}"
+  width="{{ icon_size }}"
+  height="{{ icon_size }}"
+  viewBox="0 0 24 24"
+  {% if icon_name == 'play' %}
+    fill="currentColor"
+  {% else %}
+    fill="none" stroke="currentColor" stroke-width="{{ icon_stroke }}" stroke-linecap="round" stroke-linejoin="round"
+  {% endif %}
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d="{{ d }}"></path>
+</svg>

@@ -1,37 +1,115 @@
 {% comment %}
-  This section is used in the cart template to render /cart page with an
-  overview of the items in customer's cart.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
+  Cart page: line items with quantity controls and an order summary panel.
 {% endcomment %}
 
-<h1>{{ 'cart.title' | t }}</h1>
+<div class="dt-container dt-page-pad">
+  <nav class="dt-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">Cart</span>
+  </nav>
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+  <h1 class="dt-h1">Your cart</h1>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+  {%- if cart.item_count == 0 -%}
+    <div class="dt-panel dt-empty dt-empty--panel dt-cart__empty">
+      {%- render 'icon', name: 'cart', size: 48, stroke: 1.4 -%}
+      <p>Your cart is empty.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="dt-btn dt-btn--accent dt-btn--lg">Shop all components</a>
+    </div>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" class="dt-cart" id="CartForm" novalidate>
+      <div class="dt-panel dt-cart__items">
+        <ul class="dt-cart__list">
+          {%- for item in cart.items -%}
+            <li class="dt-cart__item">
+              <a href="{{ item.url }}" class="dt-cart__thumb" tabindex="-1" aria-hidden="true">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}
+                {%- else -%}
+                  {%- render 'icon', guess: item.product.type, size: 40, stroke: 1.2 -%}
+                {%- endif -%}
+              </a>
+              <div class="dt-cart__info">
+                {%- if item.vendor != blank -%}
+                  <span class="dt-card__brand">{{ item.vendor | escape }}</span>
+                {%- endif -%}
+                <a href="{{ item.url }}" class="dt-cart__title">{{ item.product.title | escape }}</a>
+                {%- unless item.product.has_only_default_variant -%}
+                  <span class="dt-muted dt-small">{{ item.variant.title | escape }}</span>
+                {%- endunless -%}
+                {%- for prop in item.properties -%}
+                  {%- unless prop.last == blank or prop.first contains '_' -%}
+                    <span class="dt-muted dt-small">{{ prop.first | escape }}: {{ prop.last | escape }}</span>
+                  {%- endunless -%}
+                {%- endfor -%}
+                {%- if item.sku != blank -%}
+                  <span class="dt-mono dt-muted">SKU {{ item.sku | escape }}</span>
+                {%- endif -%}
+                <a href="{{ item.url_to_remove }}" class="dt-cart__remove">Remove</a>
+              </div>
+              <div class="dt-cart__qty">
+                <div class="dt-qty dt-qty--sm" role="group" aria-label="Quantity for {{ item.product.title | escape }}">
+                  <button type="button" aria-label="Decrease quantity" data-qty-step="-1">−</button>
+                  <label for="Qty-{{ item.index }}" class="visually-hidden">Quantity</label>
+                  <input id="Qty-{{ item.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0" inputmode="numeric" data-cart-qty>
+                  <button type="button" aria-label="Increase quantity" data-qty-step="1">+</button>
+                </div>
+              </div>
+              <div class="dt-cart__price">
+                {%- if item.original_line_price > item.final_line_price -%}
+                  <s class="dt-price__compare">{{ item.original_line_price | money }}</s>
+                {%- endif -%}
+                <span class="dt-price">{{ item.final_line_price | money }}</span>
+                {%- if item.quantity > 1 -%}
+                  <span class="dt-muted dt-small">{{ item.final_price | money }} each</span>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <noscript>
+          <button type="submit" name="update" class="dt-btn dt-btn--outline">Update cart</button>
+        </noscript>
+      </div>
+
+      <aside class="dt-panel dt-cart__summary" aria-label="Order summary">
+        <h2 class="dt-h3">Order summary</h2>
+        {%- if section.settings.show_note -%}
+          <label for="CartNote" class="dt-small dt-muted">Order note</label>
+          <textarea id="CartNote" name="note" class="dt-input dt-textarea" rows="3">{{ cart.note }}</textarea>
+        {%- endif -%}
+        {%- for discount in cart.cart_level_discount_applications -%}
+          <div class="dt-cart__line">
+            <span>{{ discount.title | escape }}</span>
+            <span>−{{ discount.total_allocated_amount | money }}</span>
+          </div>
+        {%- endfor -%}
+        <div class="dt-cart__line dt-cart__line--total">
+          <span>Subtotal</span>
+          <span>{{ cart.total_price | money_with_currency }}</span>
+        </div>
+        <p class="dt-muted dt-small">Taxes and shipping calculated at checkout.</p>
+        <button type="submit" name="checkout" class="dt-btn dt-btn--accent dt-btn--lg dt-btn--block">Check out</button>
+        {%- if additional_checkout_buttons -%}
+          <div class="dt-cart__dynamic">{{ content_for_additional_checkout_buttons }}</div>
+        {%- endif -%}
+        <a href="{{ routes.all_products_collection_url }}" class="dt-link-arrow dt-cart__continue">Continue shopping →</a>
+      </aside>
+    </form>
+  {%- endif -%}
+</div>
 
 {% schema %}
 {
-  "name": "t:general.cart",
-  "settings": []
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_note",
+      "label": "Show order note",
+      "default": false
+    }
+  ]
 }
 {% endschema %}

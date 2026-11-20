@@ -1,0 +1,53 @@
+{%- doc -%}
+  Product search form used in the header, mobile drawer and search page.
+
+  The category select lists the store's product types. When a type is chosen,
+  theme.js narrows the query with `product_type:"<type>"`.
+
+  @param {string} id_prefix - Unique prefix for input ids
+  @param {boolean} [compact] - Hide the category select
+  @param {string} [placeholder] - Input placeholder
+  @param {string} [class] - Extra CSS class
+
+  @example
+  {% render 'search-form', id_prefix: 'hdr' %}
+{%- enddoc -%}
+
+{%- liquid
+  assign ph = placeholder | default: 'Search by product, brand, model or part number'
+-%}
+<form
+  action="{{ routes.search_url }}"
+  method="get"
+  role="search"
+  class="dt-search{% if compact %} dt-search--compact{% endif %}{% if class != blank %} {{ class }}{% endif %}"
+  data-search-form
+>
+  {%- unless compact -%}
+    {%- if shop.types.size > 0 -%}
+      <label for="{{ id_prefix }}-cat" class="visually-hidden">Category</label>
+      <select id="{{ id_prefix }}-cat" class="dt-search__cat" data-search-type>
+        <option value="">All categories</option>
+        {%- for type in shop.types -%}
+          {%- if type != blank -%}
+            <option value="{{ type | escape }}">{{ type | escape }}</option>
+          {%- endif -%}
+        {%- endfor -%}
+      </select>
+    {%- endif -%}
+  {%- endunless -%}
+  <label for="{{ id_prefix }}-q" class="visually-hidden">Search products</label>
+  <input
+    id="{{ id_prefix }}-q"
+    class="dt-search__input"
+    type="search"
+    name="q"
+    value="{{ search.terms | escape }}"
+    placeholder="{{ ph | escape }}"
+    autocomplete="off"
+  >
+  <input type="hidden" name="options[prefix]" value="last">
+  <button type="submit" class="dt-search__btn" aria-label="Search">
+    {%- render 'icon', name: 'search', size: 20, stroke: 2.2 -%}
+  </button>
+</form>

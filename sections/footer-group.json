@@ -9,12 +9,41 @@
  */
 {
   "type": "footer",
-  "name": "t:general.footer",
+  "name": "Footer",
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "shop": {
+          "type": "menu",
+          "settings": {
+            "heading": "Shop",
+            "menu": "main-menu"
+          }
+        },
+        "support": {
+          "type": "menu",
+          "settings": {
+            "heading": "Support",
+            "menu": "footer"
+          }
+        },
+        "company": {
+          "type": "menu",
+          "settings": {
+            "heading": "Company"
+          }
+        }
+      },
+      "block_order": [
+        "shop",
+        "support",
+        "company"
+      ],
       "settings": {
-        "menu": "",
+        "show_newsletter": true,
+        "show_contact": true,
+        "show_policies": true,
         "show_payment_icons": true
       }
     }

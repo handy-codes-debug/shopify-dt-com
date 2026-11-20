@@ -1,0 +1,96 @@
+{% comment %}
+  “Build with confidence”: white cards with icon, title, text and link.
+{% endcomment %}
+
+<section class="dt-section dt-section--roomy">
+  <div class="dt-container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="dt-h2 dt-h2--spaced">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+    <div class="dt-feature-grid">
+      {%- for block in section.blocks -%}
+        <div class="dt-panel dt-feature" {{ block.shopify_attributes }}>
+          <span class="dt-feature__icon">{% render 'icon', name: block.settings.icon, size: 32, stroke: 1.8 %}</span>
+          <h3 class="dt-h3">{{ block.settings.title | escape }}</h3>
+          {%- if block.settings.text != blank -%}
+            <p class="dt-muted">{{ block.settings.text | escape }}</p>
+          {%- endif -%}
+          {%- if block.settings.link_label != blank -%}
+            <a href="{{ block.settings.link | default: '#' }}" class="dt-link-arrow">{{ block.settings.link_label | escape }} →</a>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature cards",
+  "tag": "div",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build with confidence"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "checklist", "label": "Checklist" },
+            { "value": "building", "label": "Building" },
+            { "value": "book", "label": "Book" },
+            { "value": "chat", "label": "Chat" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "truck", "label": "Truck" },
+            { "value": "tag", "label": "Tag" }
+          ],
+          "default": "checklist"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free compatibility check"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature cards",
+      "category": "DealTargets",
+      "blocks": [
+        { "type": "card", "settings": { "icon": "checklist", "title": "Free compatibility check", "text": "Send us your parts list. We'll confirm socket, chipset, clearance and power before you check out.", "link_label": "Send your parts list" } },
+        { "type": "card", "settings": { "icon": "building", "title": "Business & bulk orders", "text": "Volume quotes for system builders, IT teams and schools — with invoicing that works for your accounts team.", "link_label": "Request a quote" } },
+        { "type": "card", "settings": { "icon": "book", "title": "Build guides", "text": "Plain-language guides on choosing a PSU, picking RAM speeds and your first build, start to finish.", "link_label": "Read the guides" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

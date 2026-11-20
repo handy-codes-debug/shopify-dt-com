@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Product card</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<article style="font-family: Inter, system-ui, sans-serif; color: #1F2125; background: #FFFFFF; border: 1px solid #DEDEE0; border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; height: 100%; box-sizing: border-box">
+  <a href="Product.dc.html" style="display: flex; align-items: center; justify-content: center; position: relative; background: #E9E9EA; height: 200px; text-decoration: none">
+    <svg width="88" height="88" viewBox="0 0 24 24" fill="none" stroke="#1F2125" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Product image placeholder"><path d="{{it.d}}"></path></svg>
+    <sc-if value="{{hasBadge}}" hint-placeholder-val="{{ true }}">
+      <span style="position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; color: #FFFFFF; background: {{badgeBg}}">{{it.badge}}</span>
+    </sc-if>
+    <span style="position: absolute; right: 10px; bottom: 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #5A5C61">1000×1000</span>
+  </a>
+  <div style="padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: #5A5C61">{{it.brand}}</span>
+    <a href="Product.dc.html" style="color: #1F2125; text-decoration: none; font-weight: 600; font-size: 15px; line-height: 1.4; min-height: 42px">{{it.name}}</a>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5A5C61">{{it.specs}}</span>
+    <span style="font-size: 13px; color: #5A5C61"><span aria-hidden="true" style="color: #1F2125; letter-spacing: 1px">★★★★★</span> [rating] ([reviews])</span>
+    <div style="display: flex; align-items: baseline; gap: 10px; margin-top: 4px">
+      <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: {{priceColor}}">{{it.price}}</span>
+      <sc-if value="{{hasCompare}}" hint-placeholder-val="{{ false }}">
+        <s style="font-size: 14px; color: #5A5C61">{{it.compare}}</s>
+      </sc-if>
+    </div>
+    <span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: {{stockColor}}"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 4px; background: {{stockColor}}"></span>{{it.stock}}</span>
+    <button type="button" style="margin-top: auto; min-height: 44px; border: 0; border-radius: 8px; background: #FF6B1A; color: #1F2125; font: 600 15px Inter, sans-serif; cursor: pointer">Add to cart</button>
+  </div>
+</article>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"item":{"editor":null,"tsType":"object"},"$preview":{"width":300,"height":480}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const it = this.props.item ?? {
+      brand: '[Brand]', name: 'GeForce RTX 5070 Ti 16GB GDDR7 OC Graphics Card', specs: 'PCIe 5.0 · 16GB GDDR7 · 300W',
+      price: '$[PRICE]', compare: '$[WAS]', badge: 'Sale', stock: 'In stock',
+      d: 'M2 6h20v11H2z M11 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M19 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M5 17v3h9v-3'
+    };
+    const badgeBg = it.badge === 'Sale' ? '#C2410C' : (it.badge === 'New' ? '#5A5C61' : '#1F2125');
+    const stockColor = it.stock === 'In stock' ? '#15803D' : (it.stock === 'Out of stock' ? '#5A5C61' : '#B45309');
+    return {
+      it,
+      hasBadge: !!it.badge,
+      hasCompare: !!it.compare,
+      badgeBg,
+      stockColor,
+      priceColor: it.compare ? '#C2410C' : '#1F2125'
+    };
+  }
+}
+</script>
+</body>
+</html>

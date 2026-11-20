@@ -1,0 +1,32 @@
+{%- doc -%}
+  Renders the product badge: Sale (compare-at price), Best seller or New
+  (product tags set in Theme settings → Products).
+
+  @param {product} product - The product
+  @param {string} [class] - Extra CSS class
+
+  @example
+  {% render 'product-badge', product: product %}
+{%- enddoc -%}
+
+{%- liquid
+  assign tags = product.tags | join: '|' | downcase | prepend: '|' | append: '|'
+  assign best_tag = settings.best_seller_tag | default: 'best-seller' | downcase | prepend: '|' | append: '|'
+  assign new_tag = settings.new_tag | default: 'new' | downcase | prepend: '|' | append: '|'
+
+  assign badge = ''
+  assign badge_mod = ''
+  if product.compare_at_price > product.price
+    assign badge = 'Sale'
+    assign badge_mod = 'sale'
+  elsif tags contains best_tag
+    assign badge = 'Best seller'
+    assign badge_mod = 'best'
+  elsif tags contains new_tag
+    assign badge = 'New'
+    assign badge_mod = 'new'
+  endif
+-%}
+{%- if badge != blank -%}
+  <span class="dt-badge dt-badge--{{ badge_mod }}{% if class != blank %} {{ class }}{% endif %}">{{ badge }}</span>
+{%- endif -%}

@@ -1,0 +1,32 @@
+{%- doc -%}
+  Renders the DealTargets target mark and wordmark.
+
+  @param {boolean} [inverse] - Light version for dark backgrounds (footer)
+  @param {boolean} [show_tld] - Show the “.com” suffix (default true unless inverse)
+
+  @example
+  {% render 'logo' %}
+  {% render 'logo', inverse: true %}
+{%- enddoc -%}
+
+{%- liquid
+  assign tld = true
+  if inverse
+    assign tld = false
+  endif
+  if show_tld == false
+    assign tld = false
+  endif
+-%}
+<span class="dt-logo__inner{% if inverse %} dt-logo__inner--inverse{% endif %}">
+  <svg class="dt-logo__mark" width="38" height="38" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
+    <circle cx="18" cy="18" r="15" fill="{% if inverse %}#FFFFFF{% else %}var(--dt-ink){% endif %}"></circle>
+    <circle cx="18" cy="18" r="9.5" fill="none" stroke="var(--dt-accent)" stroke-width="3"></circle>
+    <circle cx="18" cy="18" r="3.5" fill="var(--dt-accent)"></circle>
+    <path d="M18 1v6 M18 29v6 M1 18h6 M29 18h6" stroke="var(--dt-ink)" stroke-width="2.5" stroke-linecap="round"></path>
+  </svg>
+  <span class="dt-logo__word">
+    Deal<span class="dt-logo__accent">Targets</span>
+    {%- if tld -%}<span class="dt-logo__tld">.com</span>{%- endif -%}
+  </span>
+</span>

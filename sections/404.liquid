@@ -1,23 +1,23 @@
 {% comment %}
-  This section is used in the 404 template to render page shown when customers
-  enter an invalid store URL.
-
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/404
+  404 page.
 {% endcomment %}
 
-<h1>{{ '404.title' | t }}</h1>
-
-<p>
-  {{ '404.not_found' | t }}
-</p>
-
-<a href="{{ routes.all_products_collection_url }}">
-  {{ '404.back_to_shopping' | t }}
-</a>
+<div class="dt-container dt-page-pad">
+  <div class="dt-panel dt-notfound">
+    {%- render 'icon', name: 'search', size: 56, stroke: 1.4 -%}
+    <p class="dt-eyebrow">Error 404</p>
+    <h1 class="dt-h1">That part isn’t in stock — or anywhere.</h1>
+    <p class="dt-muted">The page you’re looking for doesn’t exist. Try a search, or head back to the shop.</p>
+    <div class="dt-notfound__search">
+      {%- render 'search-form', id_prefix: 'nf', compact: true -%}
+    </div>
+    <a href="{{ routes.all_products_collection_url }}" class="dt-btn dt-btn--accent dt-btn--lg">Back to shopping</a>
+  </div>
+</div>
 
 {% schema %}
 {
-  "name": "t:general.404",
+  "name": "404",
   "settings": []
 }
 {% endschema %}

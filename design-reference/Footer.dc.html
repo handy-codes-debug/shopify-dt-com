@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Footer and newsletter</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<footer style="font-family: Inter, system-ui, sans-serif; color: #FFFFFF; background: #1F2125">
+  <!-- Newsletter -->
+  <div style="border-bottom: 1px solid #3A3D43">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 48px 32px; display: flex; flex-wrap: wrap; gap: 24px 48px; align-items: center; justify-content: space-between">
+      <div style="flex: 1 1 420px; min-width: 0">
+        <h2 style="margin: 0 0 8px; font-family: 'Space Grotesk', sans-serif; font-size: 30px; letter-spacing: -0.01em">Get restock alerts and deal drops</h2>
+        <p style="margin: 0; color: #ABADB1; font-size: 15px">One email a week, tops. Unsubscribe any time.</p>
+      </div>
+      <form style="flex: 1 1 440px; display: flex; flex-wrap: wrap; gap: 10px; min-width: 0">
+        <label for="ftr-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Email address</label>
+        <input id="ftr-email" type="email" placeholder="you@example.com" style="flex: 1 1 240px; min-width: 0; height: 52px; border-radius: 8px; border: 1px solid #4A4E55; background: #2A2D32; color: #FFFFFF; padding: 0 16px; font: 400 15px Inter, sans-serif">
+        <button type="submit" style="height: 52px; padding: 0 28px; border: 0; border-radius: 8px; background: #FF6B1A; color: #1F2125; font: 600 15px Inter, sans-serif; cursor: pointer">Subscribe</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Link columns -->
+  <div style="max-width: 1360px; margin: 0 auto; padding: 56px 32px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px">
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <a href="Main.dc.html" aria-label="DealTargets home" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FFFFFF">
+        <svg width="34" height="34" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="18" r="15" fill="#FFFFFF"></circle><circle cx="18" cy="18" r="9.5" fill="none" stroke="#FF6B1A" stroke-width="3"></circle><circle cx="18" cy="18" r="3.5" fill="#FF6B1A"></circle><path d="M18 1v6 M18 29v6 M1 18h6 M29 18h6" stroke="#1F2125" stroke-width="2.5" stroke-linecap="round"></path></svg>
+        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px">Deal<span style="color: #FF8A47">Targets</span></span>
+      </a>
+      <p style="margin: 0; color: #ABADB1; font-size: 14px; line-height: 1.6">Computer components for builders, gamers and businesses — shipped fast across the United States.</p>
+      <ul aria-label="Social media" style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px">
+        <li><a href="https://instagram.com" style="display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1px solid #4A4E55; border-radius: 18px; color: #FFFFFF; text-decoration: none; font-size: 13px">Instagram</a></li>
+        <li><a href="https://youtube.com" style="display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1px solid #4A4E55; border-radius: 18px; color: #FFFFFF; text-decoration: none; font-size: 13px">YouTube</a></li>
+        <li><a href="https://facebook.com" style="display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1px solid #4A4E55; border-radius: 18px; color: #FFFFFF; text-decoration: none; font-size: 13px">Facebook</a></li>
+        <li><a href="https://tiktok.com" style="display: inline-flex; align-items: center; min-height: 36px; padding: 0 12px; border: 1px solid #4A4E55; border-radius: 18px; color: #FFFFFF; text-decoration: none; font-size: 13px">TikTok</a></li>
+      </ul>
+    </div>
+    <nav aria-label="Shop">
+      <h3 style="margin: 0 0 16px; font-size: 13px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; color: #ABADB1">Shop</h3>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+        <li><a href="Collection.dc.html" style="color: #FFFFFF; text-decoration: none">Graphics Cards</a></li>
+        <li><a href="Collection.dc.html" style="color: #FFFFFF; text-decoration: none">Processors</a></li>
+        <li><a href="Collection.dc.html" style="color: #FFFFFF; text-decoration: none">Motherboards</a></li>
+        <li><a href="Collection.dc.html" style="color: #FFFFFF; text-decoration: none">Memory</a></li>
+        <li><a href="Collection.dc.html" style="color: #FFFFFF; text-decoration: none">Storage</a></li>
+        <li><a href="Collection.dc.html" style="color: #FFFFFF; text-decoration: none">Power Supplies</a></li>
+        <li><a href="Collection.dc.html" style="color: #FFFFFF; text-decoration: none">Cases &amp; Cooling</a></li>
+        <li><a href="Campaign.dc.html" style="color: #FFFFFF; text-decoration: none">Deals</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Support">
+      <h3 style="margin: 0 0 16px; font-size: 13px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; color: #ABADB1">Support</h3>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+        <li><a href="About.dc.html" style="color: #FFFFFF; text-decoration: none">Contact us</a></li>
+        <li><a href="Help.dc.html" style="color: #FFFFFF; text-decoration: none">FAQ</a></li>
+        <li><a href="Help.dc.html" style="color: #FFFFFF; text-decoration: none">Track your order</a></li>
+        <li><a href="Policies.dc.html" style="color: #FFFFFF; text-decoration: none">Shipping</a></li>
+        <li><a href="Policies.dc.html" style="color: #FFFFFF; text-decoration: none">Returns &amp; refunds</a></li>
+        <li><a href="Help.dc.html" style="color: #FFFFFF; text-decoration: none">Warranty &amp; RMA</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Company">
+      <h3 style="margin: 0 0 16px; font-size: 13px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; color: #ABADB1">Company</h3>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 15px">
+        <li><a href="About.dc.html" style="color: #FFFFFF; text-decoration: none">About DealTargets</a></li>
+        <li><a href="About.dc.html" style="color: #FFFFFF; text-decoration: none">Business &amp; bulk orders</a></li>
+        <li><a href="Help.dc.html" style="color: #FFFFFF; text-decoration: none">Blog &amp; guides</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h3 style="margin: 0 0 16px; font-size: 13px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; color: #ABADB1">Contact</h3>
+      <address style="font-style: normal; display: flex; flex-direction: column; gap: 10px; font-size: 15px; color: #FFFFFF; line-height: 1.5">
+        <span>[Street address]<br>[City], [State] [ZIP]</span>
+        <a href="tel:+10000000000" style="color: #FFFFFF; text-decoration: none">[Phone number]</a>
+        <a href="mailto:support@dealtargets.com" style="color: #FFFFFF; text-decoration: none">support@dealtargets.com</a>
+        <span style="color: #ABADB1">Mon–Fri [9:00–6:00] ET</span>
+      </address>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div style="border-top: 1px solid #3A3D43">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 24px 32px; display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; justify-content: space-between; font-size: 13px; color: #ABADB1">
+      <span>© 2026 DealTargets. All prices in USD.</span>
+      <nav aria-label="Policies" style="display: flex; flex-wrap: wrap; gap: 8px 20px">
+        <a href="Policies.dc.html" style="color: #ABADB1">Refund policy</a>
+        <a href="Policies.dc.html" style="color: #ABADB1">Privacy policy</a>
+        <a href="Policies.dc.html" style="color: #ABADB1">Shipping policy</a>
+        <a href="Policies.dc.html" style="color: #ABADB1">Terms of service</a>
+      </nav>
+      <ul aria-label="Accepted payment methods" style="margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px">
+        <sc-for list="{{pay}}" as="m" hint-placeholder-count="7">
+          <li style="padding: 4px 8px; border-radius: 4px; background: #FFFFFF; color: #1F2125; font-size: 11px; font-weight: 600">{{m}}</li>
+        </sc-for>
+      </ul>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":620}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { pay: ['Visa', 'Mastercard', 'Amex', 'PayPal', 'Shop Pay', 'Apple Pay', 'Google Pay'] };
+  }
+}
+</script>
+</body>
+</html>

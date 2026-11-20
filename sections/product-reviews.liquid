@@ -1,0 +1,72 @@
+{% comment %}
+  “Customer reviews” panel. Add your reviews app's block in the theme editor;
+  the left column shows the rating summary from the reviews.rating metafield.
+{% endcomment %}
+
+{%- liquid
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+  assign has_app = false
+  for block in section.blocks
+    if block.type == '@app'
+      assign has_app = true
+    endif
+  endfor
+-%}
+
+{%- if has_app or rating != blank or request.design_mode -%}
+  <div class="dt-container">
+    <section id="reviews" class="dt-panel dt-reviews">
+      <div class="dt-reviews__summary">
+        <h2 class="dt-h2 dt-h2--sm">{{ section.settings.heading | escape }}</h2>
+        {%- if rating != blank -%}
+          <span class="dt-reviews__score">{{ rating.rating | round: 1 }}</span>
+          {%- render 'stars', rating: rating.rating, scale: rating.scale_max, class: 'dt-stars--lg' -%}
+          {%- if rating_count != blank -%}
+            <span class="dt-muted dt-small">Based on {{ rating_count }} reviews</span>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+      <div class="dt-reviews__list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}
+            {% render block %}
+          {%- endif -%}
+        {%- else -%}
+          {%- if request.design_mode -%}
+            <p class="dt-muted">Add your reviews app block here (Theme editor → Add block → Apps).</p>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product reviews",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer reviews"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "presets": [
+    {
+      "name": "Product reviews",
+      "category": "DealTargets"
+    }
+  ]
+}
+{% endschema %}

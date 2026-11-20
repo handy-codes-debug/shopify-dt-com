@@ -1,50 +1,473 @@
 {% comment %}
-  This section is used in the product template to render product page with
-  media, content, and add-to-cart form.
+  Product page: gallery, buy box (variants, stock, quantity, add to cart,
+  dynamic checkout), highlights, trust tiles and info tabs.
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/product
+  Optional product metafields (namespace “custom”):
+    - mpn            single line text    → “MPN …” next to the SKU
+    - highlights     list of single line → arrow bullet list
+    - specs          multi-line text     → Specifications tab, one “Key: Value” per line
+    - specs_summary  single line text    → product card spec line
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
-</div>
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign featured_media = current_variant.featured_media | default: product.featured_media
+  assign threshold = settings.low_stock_threshold
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+  assign highlights = product.metafields.custom.highlights.value
+  assign specs = product.metafields.custom.specs.value
+  assign mpn = product.metafields.custom.mpn.value
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+  assign main_collection = collection | default: product.collections.first
+-%}
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+<div class="dt-container dt-page-pad" data-product-section data-section-id="{{ section.id }}">
+  <nav class="dt-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span aria-hidden="true">/</span>
+    {%- if main_collection -%}
+      <a href="{{ main_collection.url }}">{{ main_collection.title | escape }}</a>
+      <span aria-hidden="true">/</span>
+    {%- endif -%}
+    <span aria-current="page">{{ product.title | escape }}</span>
+  </nav>
 
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
+  <div class="dt-pdp">
+    {%- comment -%} GALLERY {%- endcomment -%}
+    <section class="dt-gallery" aria-label="Product media" data-gallery>
+      <div class="dt-gallery__stage">
+        {%- for media in product.media -%}
+          {%- assign is_active = false -%}
+          {%- if featured_media.id == media.id or featured_media == blank and forloop.first -%}
+            {%- assign is_active = true -%}
+          {%- endif -%}
+          <div
+            class="dt-gallery__slide"
+            data-media-id="{{ media.id }}"
+            {% unless is_active %}
+              hidden
+            {% endunless %}
+          >
+            {%- case media.media_type -%}
+              {%- when 'image' -%}
+                {{
+                  media
+                  | image_url: width: 1200
+                  | image_tag: loading: 'eager', sizes: '(min-width: 990px) 55vw, 100vw', widths: '400, 600, 800, 1000, 1200'
+                }}
+              {%- when 'video' -%}
+                {{ media | video_tag: controls: true, image_size: '1200x' }}
+              {%- when 'external_video' -%}
+                {{ media | external_video_tag }}
+              {%- else -%}
+                {{ media | media_tag }}
+            {%- endcase -%}
+          </div>
+        {%- else -%}
+          <div class="dt-gallery__slide">
+            {%- render 'icon', guess: product.type, size: 260, stroke: 0.7, class: 'dt-gallery__placeholder' -%}
+          </div>
+        {%- endfor -%}
 
-    <input type="text" name="quantity" min="1" value="1">
+        {%- render 'product-badge', product: product, class: 'dt-gallery__badge' -%}
 
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
+        {%- if featured_media.media_type == 'image' or product.featured_image -%}
+          <a
+            href="{{ featured_media.preview_image | default: product.featured_image | image_url: width: 2400 }}"
+            class="dt-icon-btn dt-icon-btn--round dt-gallery__zoom"
+            target="_blank"
+            rel="noopener"
+            aria-label="Zoom image"
+            data-gallery-zoom
+          >
+            {%- render 'icon', name: 'zoom', size: 20, stroke: 2 -%}
+          </a>
+        {%- endif -%}
+
+        {%- if product.media.size > 1 -%}
+          <span class="dt-gallery__count" data-gallery-count>
+            {%- for media in product.media -%}
+              {%- if media.id == featured_media.id -%}{{ forloop.index }}{%- endif -%}
+            {%- endfor %} of {{ product.media.size -}}
+          </span>
+        {%- endif -%}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <div class="dt-gallery__thumbs" role="list" aria-label="Choose image">
+          {%- for media in product.media -%}
+            <button
+              type="button"
+              role="listitem"
+              class="dt-gallery__thumb{% if media.id == featured_media.id %} is-active{% endif %}"
+              data-media-target="{{ media.id }}"
+              data-zoom-url="{{ media.preview_image | image_url: width: 2400 }}"
+              data-index="{{ forloop.index }}"
+              aria-label="{{ media.alt | default: product.title | escape }} – {{ forloop.index }}"
+            >
+              {{ media.preview_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}
+              {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+                <span class="dt-gallery__play">{% render 'icon', name: 'play', size: 18 %}</span>
+              {%- endif -%}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </section>
+
+    {%- comment -%} BUY BOX {%- endcomment -%}
+    <section class="dt-buybox" aria-label="Product details">
+      <div class="dt-buybox__head">
+        {%- if product.vendor != blank -%}
+          <span class="dt-buybox__brand">{{ product.vendor | escape }}</span>
+        {%- endif -%}
+        <h1 class="dt-buybox__title">{{ product.title | escape }}</h1>
+        <div class="dt-buybox__meta">
+          {%- if rating != blank -%}
+            <a href="#reviews" class="dt-buybox__rating">
+              {%- render 'stars', rating: rating.rating, scale: rating.scale_max -%}
+              {{ rating.rating | round: 1 }}
+              {%- if rating_count != blank %} · {{ rating_count }} reviews{% endif -%}
+            </a>
+          {%- endif -%}
+          <span class="dt-mono" data-sku-wrap{% if current_variant.sku == blank %} hidden{% endif %}>
+            SKU <span data-sku>{{ current_variant.sku | escape }}</span>
+          </span>
+          {%- if mpn != blank -%}
+            <span class="dt-mono">MPN {{ mpn | escape }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <div class="dt-buybox__price">
+        <span class="dt-buybox__amount{% if current_variant.compare_at_price > current_variant.price %} dt-price--sale{% endif %}" data-price>
+          {{- current_variant.price | money -}}
+        </span>
+        <s class="dt-price__compare" data-compare{% unless current_variant.compare_at_price > current_variant.price %} hidden{% endunless %}>
+          {{- current_variant.compare_at_price | money -}}
+        </s>
+        <span class="dt-muted dt-small">{{ cart.currency.iso_code }} · sales tax calculated at checkout</span>
+      </div>
+
+      {%- form 'product', product, id: 'ProductForm', class: 'dt-buybox__form', data-product-form: '' -%}
+        <div class="dt-buybox__installments">{{ form | payment_terms }}</div>
+
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <fieldset class="dt-option" data-option-index="{{ forloop.index0 }}">
+              <legend class="dt-option__legend">
+                {{ option.name | escape }}: <span data-option-value>{{ option.selected_value | escape }}</span>
+              </legend>
+              <div class="dt-option__values">
+                {%- for value in option.values -%}
+                  <label class="dt-option__pill">
+                    <input
+                      type="radio"
+                      name="option-{{ option.position }}"
+                      value="{{ value | escape }}"
+                      {% if option.selected_value == value %}
+                        checked
+                      {% endif %}
+                    >
+                    <span>{{ value | escape }}</span>
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        {%- liquid
+          if current_variant.available == false
+            assign stock_label = 'Out of stock'
+            assign stock_mod = 'out'
+          elsif current_variant.inventory_management != blank and current_variant.inventory_policy == 'deny' and current_variant.inventory_quantity <= threshold
+            assign stock_label = 'Only ' | append: current_variant.inventory_quantity | append: ' left'
+            assign stock_mod = 'low'
+          else
+            assign stock_label = 'In stock'
+            assign stock_mod = 'in'
+          endif
+        -%}
+        <div class="dt-panel dt-panel--tight dt-buybox__stock">
+          <span class="dt-stock dt-stock--lg dt-stock--{{ stock_mod }}" data-stock>{{ stock_label }}</span>
+          {%- if section.settings.shipping_note != blank -%}
+            <span class="dt-small dt-ink-3">{{ section.settings.shipping_note | escape }}</span>
+          {%- endif -%}
+        </div>
+
+        <div class="dt-buybox__row">
+          <div class="dt-qty" role="group" aria-label="Quantity">
+            <button type="button" aria-label="Decrease quantity" data-qty-step="-1">−</button>
+            <label for="Quantity-{{ section.id }}" class="visually-hidden">Quantity</label>
+            <input id="Quantity-{{ section.id }}" type="number" name="quantity" value="1" min="1" inputmode="numeric">
+            <button type="button" aria-label="Increase quantity" data-qty-step="1">+</button>
+          </div>
+          <button
+            type="submit"
+            name="add"
+            class="dt-btn dt-btn--accent dt-btn--lg dt-buybox__add"
+            data-add-button
+            {% unless current_variant.available %}
+              disabled
+            {% endunless %}
+          >
+            {%- if current_variant.available -%}Add to cart{%- else -%}Sold out{%- endif -%}
+          </button>
+        </div>
+
+        {%- if section.settings.show_dynamic_checkout -%}
+          <div class="dt-buybox__dynamic">{{ form | payment_button }}</div>
+        {%- endif -%}
+      {%- endform -%}
+
+      {%- if highlights != blank -%}
+        <ul class="dt-highlights">
+          {%- for item in highlights -%}
+            <li>{{ item | escape }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if section.settings.tile_1_title != blank or section.settings.tile_2_title != blank or section.settings.tile_3_title != blank -%}
+        <div class="dt-tiles">
+          {%- for i in (1..3) -%}
+            {%- liquid
+              assign t_key = 'tile_' | append: i | append: '_title'
+              assign x_key = 'tile_' | append: i | append: '_text'
+              assign l_key = 'tile_' | append: i | append: '_link'
+              assign t_title = section.settings[t_key]
+              assign t_text = section.settings[x_key]
+              assign t_link = section.settings[l_key]
+            -%}
+            {%- if t_title != blank -%}
+              <div class="dt-tile">
+                <strong>{{ t_title | escape }}</strong>
+                {%- if t_link != blank -%}
+                  <a href="{{ t_link }}">{{ t_text | escape }}</a>
+                {%- else -%}
+                  <span>{{ t_text | escape }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </section>
+  </div>
+
+  {%- comment -%} TABS {%- endcomment -%}
+  {%- liquid
+    assign has_specs = false
+    if specs != blank
+      assign has_specs = true
+    endif
+    assign has_ship = false
+    if section.settings.shipping_returns != blank
+      assign has_ship = true
+    endif
+    assign faq_blocks = section.blocks | where: 'type', 'faq'
+  -%}
+  <section class="dt-panel dt-tabs" data-tabs>
+    <div class="dt-tabs__list" role="tablist" aria-label="Product information">
+      <button type="button" role="tab" id="PTab-desc" aria-controls="PPanel-desc" aria-selected="true">Description</button>
+      {%- if has_specs -%}
+        <button type="button" role="tab" id="PTab-specs" aria-controls="PPanel-specs" aria-selected="false" tabindex="-1">Specifications</button>
+      {%- endif -%}
+      {%- if has_ship -%}
+        <button type="button" role="tab" id="PTab-ship" aria-controls="PPanel-ship" aria-selected="false" tabindex="-1">Shipping &amp; returns</button>
+      {%- endif -%}
+      {%- if faq_blocks.size > 0 -%}
+        <button type="button" role="tab" id="PTab-faq" aria-controls="PPanel-faq" aria-selected="false" tabindex="-1">Questions</button>
+      {%- endif -%}
+    </div>
+
+    <div class="dt-tabs__panel" role="tabpanel" id="PPanel-desc" aria-labelledby="PTab-desc">
+      <div class="dt-rte dt-measure">{{ product.description }}</div>
+    </div>
+
+    {%- if has_specs -%}
+      <div class="dt-tabs__panel" role="tabpanel" id="PPanel-specs" aria-labelledby="PTab-specs" hidden>
+        <table class="dt-specs">
+          <caption>Specifications</caption>
+          <tbody>
+            {%- assign spec_lines = specs | newline_to_br | split: '<br />' -%}
+            {%- for line in spec_lines -%}
+              {%- assign clean = line | strip -%}
+              {%- if clean != blank -%}
+                {%- assign parts = clean | split: ':' -%}
+                {%- assign key = parts.first | strip -%}
+                {%- assign val = clean | remove_first: parts.first | remove_first: ':' | strip -%}
+                <tr>
+                  <th scope="row">{{ key | escape }}</th>
+                  <td>{{ val | escape }}</td>
+                </tr>
+              {%- endif -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+    {%- endif -%}
+
+    {%- if has_ship -%}
+      <div class="dt-tabs__panel" role="tabpanel" id="PPanel-ship" aria-labelledby="PTab-ship" hidden>
+        <div class="dt-rte dt-measure">
+          <h2 class="dt-h3">Shipping &amp; returns</h2>
+          {{ section.settings.shipping_returns }}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if faq_blocks.size > 0 -%}
+      <div class="dt-tabs__panel" role="tabpanel" id="PPanel-faq" aria-labelledby="PTab-faq" hidden>
+        <div class="dt-faq dt-measure">
+          {%- for block in faq_blocks -%}
+            <div {{ block.shopify_attributes }}>
+              <h3>{{ block.settings.question | escape }}</h3>
+              <div class="dt-rte">{{ block.settings.answer }}</div>
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </section>
+
+  <script type="application/json" data-product-variants>
+    [
+      {%- for v in product.variants -%}
+        {%- liquid
+          if v.available == false
+            assign v_stock = 'Out of stock'
+            assign v_mod = 'out'
+          elsif v.inventory_management != blank and v.inventory_policy == 'deny' and v.inventory_quantity <= threshold
+            assign v_stock = 'Only ' | append: v.inventory_quantity | append: ' left'
+            assign v_mod = 'low'
+          else
+            assign v_stock = 'In stock'
+            assign v_mod = 'in'
+          endif
+        -%}
+        {
+          "id": {{ v.id }},
+          "options": {{ v.options | json }},
+          "price": {{ v.price | money | json }},
+          "compare": {% if v.compare_at_price > v.price %}{{ v.compare_at_price | money | json }}{% else %}null{% endif %},
+          "available": {{ v.available | json }},
+          "sku": {{ v.sku | json }},
+          "stock": {{ v_stock | json }},
+          "stockMod": {{ v_mod | json }},
+          "media": {% if v.featured_media %}{{ v.featured_media.id }}{% else %}null{% endif %}
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  </script>
 </div>
 
 {% schema %}
 {
-  "name": "t:general.product",
-  "settings": [],
+  "name": "Product",
+  "settings": [
+    {
+      "type": "text",
+      "id": "shipping_note",
+      "label": "Shipping note under stock status",
+      "default": "Ships in 1–2 business days · Free shipping over $99"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout button (Buy it now)",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Trust tiles"
+    },
+    {
+      "type": "text",
+      "id": "tile_1_title",
+      "label": "Tile 1 title",
+      "default": "Manufacturer warranty"
+    },
+    {
+      "type": "text",
+      "id": "tile_1_text",
+      "label": "Tile 1 text",
+      "default": "Manufacturer-backed"
+    },
+    {
+      "type": "url",
+      "id": "tile_1_link",
+      "label": "Tile 1 link"
+    },
+    {
+      "type": "text",
+      "id": "tile_2_title",
+      "label": "Tile 2 title",
+      "default": "30-day returns"
+    },
+    {
+      "type": "text",
+      "id": "tile_2_text",
+      "label": "Tile 2 text",
+      "default": "See return policy"
+    },
+    {
+      "type": "url",
+      "id": "tile_2_link",
+      "label": "Tile 2 link"
+    },
+    {
+      "type": "text",
+      "id": "tile_3_title",
+      "label": "Tile 3 title",
+      "default": "Compatibility check"
+    },
+    {
+      "type": "text",
+      "id": "tile_3_text",
+      "label": "Tile 3 text",
+      "default": "Ask an expert"
+    },
+    {
+      "type": "url",
+      "id": "tile_3_link",
+      "label": "Tile 3 link"
+    },
+    {
+      "type": "header",
+      "content": "Tabs"
+    },
+    {
+      "type": "richtext",
+      "id": "shipping_returns",
+      "label": "Shipping & returns tab",
+      "default": "<p><strong>Shipping:</strong> Orders placed before 2 PM ET on business days ship the same day. Free standard shipping over $99; expedited rates shown at checkout.</p><p><strong>Returns:</strong> Unopened items within 30 days. See the full return policy for open-box terms.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Will this fit my case?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Check your case's maximum GPU length against the card length in the specifications. Send us your case model and we'll confirm.</p>"
+        }
+      ]
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

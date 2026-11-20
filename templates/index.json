@@ -9,12 +9,120 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "eyebrow": "dealtargets.com · PC components",
+        "heading": "Lock onto better deals for your",
+        "heading_highlight": "next build.",
+        "text": "Graphics cards, processors, motherboards, memory and more at sharp prices — with real specs, honest stock levels and help checking compatibility before you buy.",
+        "button_1_label": "Shop all components",
+        "button_1_link": "/collections/all",
+        "button_2_label": "Get build help",
+        "bullet_1": "Fast US shipping",
+        "bullet_2": "Secure checkout",
+        "bullet_3": "30-day returns",
+        "deal_label": "Deal of the day"
+      }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "icon": "truck", "title": "Free shipping over $99", "text": "Tracked delivery nationwide" } },
+        "t2": { "type": "item", "settings": { "icon": "bell", "title": "Price-drop alerts", "text": "Get notified when a part goes on sale" } },
+        "t3": { "type": "item", "settings": { "icon": "shield", "title": "Secure checkout", "text": "Cards, PayPal, Shop Pay, Apple Pay" } },
+        "t4": { "type": "item", "settings": { "icon": "chat", "title": "Real people, real answers", "text": "Compatibility checks before you buy" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {
+        "label": "Why shop with us"
+      }
+    },
+    "categories": {
+      "type": "category-grid",
+      "blocks": {
+        "c1": { "type": "collection", "settings": { "title": "Graphics Cards", "short_label": "GPUs", "blurb": "From 1080p value cards to flagship 4K performance.", "icon": "gpu" } },
+        "c2": { "type": "collection", "settings": { "title": "Processors", "short_label": "CPUs", "blurb": "Intel and AMD desktop CPUs for gaming and work.", "icon": "cpu" } },
+        "c3": { "type": "collection", "settings": { "title": "Motherboards", "short_label": "motherboards", "blurb": "AM5, LGA1851 and more, in ATX, mATX and ITX.", "icon": "motherboard" } },
+        "c4": { "type": "collection", "settings": { "title": "Memory", "short_label": "RAM", "blurb": "DDR5 and DDR4 kits, tuned for EXPO and XMP.", "icon": "ram" } },
+        "c5": { "type": "collection", "settings": { "title": "Storage", "short_label": "storage", "blurb": "NVMe SSDs, SATA drives and high-capacity HDDs.", "icon": "ssd" } },
+        "c6": { "type": "collection", "settings": { "title": "Power Supplies", "short_label": "PSUs", "blurb": "Efficiency-rated, modular units for every wattage.", "icon": "psu" } },
+        "c7": { "type": "collection", "settings": { "title": "Cases", "short_label": "cases", "blurb": "Airflow, compact and showcase cases.", "icon": "case" } },
+        "c8": { "type": "collection", "settings": { "title": "Cooling", "short_label": "cooling", "blurb": "Air coolers, AIO liquid coolers and case fans.", "icon": "cooling" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"],
+      "settings": {
+        "heading": "Shop by category",
+        "subheading": "Eight core collections — everything you need for a complete build.",
+        "link_label": "View all products",
+        "link": "/collections/all"
+      }
+    },
+    "promo": {
+      "type": "promo-banner",
+      "settings": {
+        "tag": "Black Friday · Starts Nov 27",
+        "heading": "Black Friday deals on GPUs, CPUs and full build bundles.",
+        "text": "Join the early-access list and get the deal drop in your inbox before it goes live.",
+        "button_1_label": "Preview the deals",
+        "button_2_label": "Get early access"
+      }
+    },
+    "top_deals": {
+      "type": "featured-products",
+      "blocks": {
+        "tab1": { "type": "tab", "settings": { "label": "Best sellers" } },
+        "tab2": { "type": "tab", "settings": { "label": "New arrivals" } },
+        "tab3": { "type": "tab", "settings": { "label": "On sale" } }
+      },
+      "block_order": ["tab1", "tab2", "tab3"],
+      "settings": {
+        "heading": "Today's top deals",
+        "products_to_show": 4
+      }
+    },
+    "confidence": {
+      "type": "feature-cards",
+      "blocks": {
+        "f1": { "type": "card", "settings": { "icon": "checklist", "title": "Free compatibility check", "text": "Send us your parts list. We'll confirm socket, chipset, clearance and power before you check out.", "link_label": "Send your parts list" } },
+        "f2": { "type": "card", "settings": { "icon": "building", "title": "Business & bulk orders", "text": "Volume quotes for system builders, IT teams and schools — with invoicing that works for your accounts team.", "link_label": "Request a quote" } },
+        "f3": { "type": "card", "settings": { "icon": "book", "title": "Build guides", "text": "Plain-language guides on choosing a PSU, picking RAM speeds and your first build, start to finish.", "link_label": "Read the guides" } }
+      },
+      "block_order": ["f1", "f2", "f3"],
+      "settings": {
+        "heading": "Build with confidence"
+      }
+    },
+    "reviews": {
+      "type": "testimonials",
+      "blocks": {
+        "q1": { "type": "quote", "settings": { "rating": 5, "quote": "Review text from a verified buyer — ideally one that mentions speed of shipping or packaging.", "author": "Customer name · Verified buyer · Product purchased" } },
+        "q2": { "type": "quote", "settings": { "rating": 5, "quote": "Review text that mentions the compatibility check or support experience.", "author": "Customer name · Verified buyer · Product purchased" } },
+        "q3": { "type": "quote", "settings": { "rating": 5, "quote": "Review text that mentions pricing, deals or returns.", "author": "Customer name · Verified buyer · Product purchased" } }
+      },
+      "block_order": ["q1", "q2", "q3"],
+      "settings": {
+        "heading": "What builders say",
+        "summary": "4.8 average from verified reviews"
+      }
+    },
+    "guides": {
+      "type": "blog-posts",
+      "settings": {
+        "heading": "Guides & news",
+        "count": 3,
+        "link_label": "All articles"
+      }
     }
   },
   "order": [
-    "main"
+    "hero",
+    "trust",
+    "categories",
+    "promo",
+    "top_deals",
+    "confidence",
+    "reviews",
+    "guides"
   ]
 }

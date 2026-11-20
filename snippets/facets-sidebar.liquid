@@ -1,0 +1,118 @@
+{%- doc -%}
+  Filter sidebar (desktop) / filter drawer (mobile) for collection and search
+  pages. Uses Shopify storefront filtering — enable filters in the
+  Search & Discovery app.
+
+  @param {object} results - The collection or search object
+  @param {string} clear_url - URL that removes all filters
+  @param {string} [terms] - Search terms (search page only)
+  @param {string} [sort_by] - Current sort value
+  @param {number} [results_count] - Number of matching products
+
+  @example
+  {% render 'facets-sidebar', results: collection, clear_url: collection.url, sort_by: collection.sort_by %}
+{%- enddoc -%}
+
+{%- if results.filters.size > 0 -%}
+  <aside class="dt-filters" id="FiltersDrawer" aria-label="Filters" data-filters>
+    <div class="dt-filters__head">
+      <h2 class="dt-filters__title">Filters</h2>
+      <a href="{{ clear_url }}" class="dt-filters__clear">Clear all</a>
+      <button type="button" class="dt-icon-btn dt-filters__close" data-filters-close aria-label="Close filters">
+        {%- render 'icon', name: 'close', size: 20, stroke: 2 -%}
+      </button>
+    </div>
+
+    <form id="FacetsForm" class="dt-filters__form" data-facets-form>
+      {%- if terms != blank -%}
+        <input type="hidden" name="q" value="{{ terms | escape }}">
+        <input type="hidden" name="options[prefix]" value="last">
+      {%- endif -%}
+      {%- if sort_by != blank -%}
+        <input type="hidden" name="sort_by" value="{{ sort_by | escape }}">
+      {%- endif -%}
+
+      {%- for filter in results.filters -%}
+        <fieldset class="dt-filter">
+          <legend class="dt-filter__legend">{{ filter.label | escape }}</legend>
+
+          {%- case filter.type -%}
+            {%- when 'price_range' -%}
+              <div class="dt-filter__price">
+                <label class="dt-filter__price-field">
+                  Min
+                  <input
+                    class="dt-input"
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step="any"
+                    name="{{ filter.min_value.param_name }}"
+                    {% if filter.min_value.value %}
+                      value="{{ filter.min_value.value | money_without_currency | remove: ',' }}"
+                    {% endif %}
+                    placeholder="{{ cart.currency.symbol }}0"
+                  >
+                </label>
+                <span class="dt-filter__dash" aria-hidden="true">–</span>
+                <label class="dt-filter__price-field">
+                  Max
+                  <input
+                    class="dt-input"
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step="any"
+                    name="{{ filter.max_value.param_name }}"
+                    {% if filter.max_value.value %}
+                      value="{{ filter.max_value.value | money_without_currency | remove: ',' }}"
+                    {% endif %}
+                    placeholder="{{ cart.currency.symbol }}{{ filter.range_max | money_without_currency | remove: ',' }}"
+                  >
+                </label>
+              </div>
+
+            {%- else -%}
+              <div class="dt-filter__options">
+                {%- for value in filter.values -%}
+                  {%- if forloop.index == 9 -%}
+                    <details class="dt-filter__more"{% if filter.active_values.size > 0 %} open{% endif %}>
+                      <summary>Show more</summary>
+                  {%- endif -%}
+                  {%- assign is_disabled = false -%}
+                  {%- if value.count == 0 and value.active == false -%}
+                    {%- assign is_disabled = true -%}
+                  {%- endif -%}
+                  <label class="dt-check{% if is_disabled %} is-disabled{% endif %}">
+                    <input
+                      type="checkbox"
+                      name="{{ value.param_name }}"
+                      value="{{ value.value }}"
+                      {% if value.active %}
+                        checked
+                      {% endif %}
+                      {% if is_disabled %}
+                        disabled
+                      {% endif %}
+                    >
+                    <span class="dt-check__label">{{ value.label | escape }}</span>
+                    <span class="dt-check__count">{{ value.count }}</span>
+                  </label>
+                  {%- if forloop.last and forloop.length > 8 -%}
+                    </details>
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+          {%- endcase -%}
+        </fieldset>
+      {%- endfor -%}
+
+      <div class="dt-filters__footer">
+        <button type="submit" class="dt-btn dt-btn--accent dt-btn--block">
+          Show {{ results_count | default: 0 }} results
+        </button>
+      </div>
+    </form>
+  </aside>
+  <div class="dt-filters__overlay" data-filters-close hidden></div>
+{%- endif -%}

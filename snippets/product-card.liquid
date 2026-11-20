@@ -1,0 +1,97 @@
+{%- doc -%}
+  DealTargets product card: image, badge, brand, title, specs, rating, price,
+  stock status and add-to-cart.
+
+  Specs line uses the `custom.specs_summary` product metafield when present,
+  otherwise the product type.
+
+  @param {product} product - The product to render
+  @param {string} [sizes] - Image sizes attribute
+
+  @example
+  {% render 'product-card', product: product %}
+{%- enddoc -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign img_sizes = sizes | default: '(min-width: 1200px) 300px, (min-width: 750px) 33vw, 50vw'
+
+  assign specs = product.metafields.custom.specs_summary.value | default: product.type
+
+  if product.available == false
+    assign stock_label = 'Out of stock'
+    assign stock_mod = 'out'
+  elsif variant.inventory_management != blank and variant.inventory_policy == 'deny' and variant.inventory_quantity <= settings.low_stock_threshold
+    assign stock_label = 'Low stock'
+    assign stock_mod = 'low'
+  else
+    assign stock_label = 'In stock'
+    assign stock_mod = 'in'
+  endif
+
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  assign rating = product.metafields.reviews.rating.value
+  assign rating_count = product.metafields.reviews.rating_count.value
+-%}
+<article class="dt-card">
+  <a href="{{ product.url }}" class="dt-card__media" tabindex="-1" aria-hidden="true">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 600
+        | image_tag: loading: 'lazy', sizes: img_sizes, widths: '300, 450, 600', alt: product.featured_media.alt
+      }}
+    {%- else -%}
+      {%- render 'icon', guess: product.type, size: 88, stroke: 1.1, class: 'dt-card__placeholder' -%}
+    {%- endif -%}
+    {%- render 'product-badge', product: product, class: 'dt-card__badge' -%}
+  </a>
+
+  <div class="dt-card__body">
+    {%- if product.vendor != blank -%}
+      <span class="dt-card__brand">{{ product.vendor | escape }}</span>
+    {%- endif -%}
+    <a href="{{ product.url }}" class="dt-card__title">{{ product.title | escape }}</a>
+    {%- if specs != blank -%}
+      <span class="dt-card__specs">{{ specs | escape }}</span>
+    {%- endif -%}
+
+    {%- if settings.card_show_rating and rating != blank -%}
+      <span class="dt-card__rating">
+        {%- render 'stars', rating: rating.rating, scale: rating.scale_max -%}
+        {{ rating.rating | round: 1 }}
+        {%- if rating_count != blank %} ({{ rating_count }}){% endif -%}
+      </span>
+    {%- endif -%}
+
+    <div class="dt-card__price">
+      <span class="dt-price{% if on_sale %} dt-price--sale{% endif %}">
+        {%- if product.price_varies %}From {% endif -%}
+        {{- product.price | money -}}
+      </span>
+      {%- if on_sale -%}
+        <s class="dt-price__compare">{{ product.compare_at_price | money }}</s>
+      {%- endif -%}
+    </div>
+
+    <span class="dt-stock dt-stock--{{ stock_mod }}">{{ stock_label }}</span>
+
+    <div class="dt-card__actions">
+      {%- if product.available and product.has_only_default_variant -%}
+        {%- form 'product', product, class: 'dt-card__form' -%}
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button type="submit" class="dt-btn dt-btn--accent dt-btn--block">Add to cart</button>
+        {%- endform -%}
+      {%- elsif product.available -%}
+        <a href="{{ product.url }}" class="dt-btn dt-btn--accent dt-btn--block">Choose options</a>
+      {%- else -%}
+        <button type="button" class="dt-btn dt-btn--block" disabled>Sold out</button>
+      {%- endif -%}
+    </div>
+  </div>
+</article>

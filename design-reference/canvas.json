@@ -1,0 +1,144 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 4900,
+      "title": "Home page",
+      "expand": "fill"
+    },
+    {
+      "file": "Collection.dc.html",
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 2950,
+      "title": "Collection / search results",
+      "expand": "fill"
+    },
+    {
+      "file": "Product.dc.html",
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 3300,
+      "title": "Product page",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    {
+      "file": "Campaign.dc.html",
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 4100,
+      "title": "Campaign landing — Black Friday",
+      "expand": "fill"
+    },
+    {
+      "file": "About.dc.html",
+      "x": 0,
+      "y": 5320,
+      "w": 1440,
+      "h": 2900,
+      "title": "About & Contact",
+      "expand": "fill"
+    },
+    {
+      "file": "Help.dc.html",
+      "x": 1520,
+      "y": 5320,
+      "w": 1440,
+      "h": 2900,
+      "title": "FAQ & Blog",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    {
+      "file": "Policies.dc.html",
+      "x": 3040,
+      "y": 5320,
+      "w": 1440,
+      "h": 2500,
+      "title": "Store policies",
+      "expand": "fill",
+      "is_interactive": true
+    },
+    {
+      "file": "MobileMenu.dc.html",
+      "x": 4560,
+      "y": 5320,
+      "w": 390,
+      "h": 844,
+      "title": "Mobile — menu drawer"
+    },
+    {
+      "file": "MobileFilters.dc.html",
+      "x": 5030,
+      "y": 5320,
+      "w": 390,
+      "h": 844,
+      "title": "Mobile — collection filters"
+    },
+    {
+      "file": "Header.dc.html",
+      "x": 0,
+      "y": 8640,
+      "w": 1440,
+      "h": 180,
+      "title": "Section — Announcement bar + header",
+      "expand": "fill"
+    },
+    {
+      "file": "Footer.dc.html",
+      "x": 1520,
+      "y": 8640,
+      "w": 1440,
+      "h": 620,
+      "title": "Section — Footer + newsletter",
+      "expand": "fill"
+    },
+    {
+      "file": "ProductCard.dc.html",
+      "x": 3040,
+      "y": 8640,
+      "w": 300,
+      "h": 480,
+      "title": "Component — Product card"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "row1",
+      "x": 0,
+      "y": -300,
+      "w": 240,
+      "maxW": 6000,
+      "text": "Shopping flow — home, collection grid, product, campaign",
+      "kind": "title1"
+    },
+    {
+      "id": "row2",
+      "x": 0,
+      "y": 5040,
+      "w": 240,
+      "maxW": 5420,
+      "text": "Trust & information pages + mobile",
+      "kind": "title1"
+    },
+    {
+      "id": "row3",
+      "x": 0,
+      "y": 8360,
+      "w": 240,
+      "maxW": 3340,
+      "text": "Shared sections — edit once, every page updates",
+      "kind": "title1"
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  }
+}

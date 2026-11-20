@@ -1,0 +1,84 @@
+{% comment %}
+  White strip of 4 trust points with orange icons.
+{% endcomment %}
+
+<section class="dt-trust" aria-label="{{ section.settings.label | escape }}">
+  <div class="dt-container dt-trust__grid">
+    {%- for block in section.blocks -%}
+      <div class="dt-trust__item" {{ block.shopify_attributes }}>
+        <span class="dt-icon-tile">{% render 'icon', name: block.settings.icon, size: 22, stroke: 2 %}</span>
+        <div>
+          <div class="dt-trust__title">{{ block.settings.title | escape }}</div>
+          {%- if block.settings.text != blank -%}
+            <div class="dt-trust__text">{{ block.settings.text | escape }}</div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust strip",
+  "tag": "div",
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Accessible label",
+      "default": "Why shop with us"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust point",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Truck" },
+            { "value": "bell", "label": "Bell" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "chat", "label": "Chat" },
+            { "value": "return", "label": "Return" },
+            { "value": "tag", "label": "Tag" },
+            { "value": "checklist", "label": "Checklist" },
+            { "value": "building", "label": "Building" },
+            { "value": "book", "label": "Book" }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Free shipping over $99"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Tracked delivery nationwide"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust strip",
+      "category": "DealTargets",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "truck", "title": "Free shipping over $99", "text": "Tracked delivery nationwide" } },
+        { "type": "item", "settings": { "icon": "bell", "title": "Price-drop alerts", "text": "Get notified when a part goes on sale" } },
+        { "type": "item", "settings": { "icon": "shield", "title": "Secure checkout", "text": "Cards, PayPal, Shop Pay, Apple Pay" } },
+        { "type": "item", "settings": { "icon": "chat", "title": "Real people, real answers", "text": "Compatibility checks before you buy" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

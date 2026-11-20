@@ -1,47 +1,121 @@
 {% comment %}
-  This section is used in the collection template to render collection page
-  listing all products within a collection.
+  Collection page: breadcrumb, title, sub-category pills, filter sidebar,
+  toolbar, product grid, pagination and an optional buying-guide box.
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+  Sub-category pills: create a navigation menu whose handle matches the
+  collection handle (e.g. “graphics-cards”) and its links appear as pills.
+
+  Buying guide: rich text from the `custom.buying_guide` collection metafield.
 {% endcomment %}
 
-<h1>{{ collection.title }}</h1>
+{%- liquid
+  assign pill_menu = linklists[collection.handle]
+  assign guide = collection.metafields.custom.buying_guide
+-%}
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
+<div class="dt-container dt-page-pad">
+  <nav class="dt-breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ routes.root_url }}">Home</a>
+    <span aria-hidden="true">/</span>
+    <a href="{{ routes.collections_url }}">Components</a>
+    <span aria-hidden="true">/</span>
+    <span aria-current="page">{{ collection.title | escape }}</span>
+  </nav>
+
+  <div class="dt-page-head">
+    <div class="dt-page-head__copy">
+      <h1 class="dt-h1">{{ collection.title | escape }}</h1>
+      {%- if collection.description != blank -%}
+        <div class="dt-page-head__desc">{{ collection.description }}</div>
+      {%- endif -%}
+    </div>
+    <span class="dt-muted dt-small">{{ collection.products_count }} {{ collection.products_count | pluralize: 'product', 'products' }}</span>
+  </div>
+
+  {%- if pill_menu.links.size > 0 -%}
+    <ul class="dt-pills" aria-label="Shop by type">
+      <li><a href="{{ collection.url }}" class="dt-pill{% if collection.current_type == blank and collection.current_vendor == blank %} is-active{% endif %}">All {{ collection.title | escape }}</a></li>
+      {%- for link in pill_menu.links -%}
+        <li><a href="{{ link.url }}" class="dt-pill{% if link.active %} is-active{% endif %}">{{ link.title | escape }}</a></li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- paginate collection.products by section.settings.per_page -%}
+    <div class="dt-results{% if collection.filters.size == 0 %} dt-results--no-filters{% endif %}">
+      {%- render 'facets-sidebar',
+        results: collection,
+        clear_url: collection.url,
+        sort_by: collection.sort_by,
+        results_count: collection.products_count
+      -%}
+
+      <section class="dt-results__main" aria-label="Products">
+        {%- render 'facets-toolbar',
+          results: collection,
+          paginate: paginate,
+          sort_by: collection.sort_by,
+          sort_options: collection.sort_options
+        -%}
+
+        <div class="dt-product-grid dt-product-grid--results" data-product-grid>
+          {%- for product in collection.products -%}
+            {%- render 'product-card', product: product -%}
+          {%- else -%}
+            <div class="dt-empty dt-empty--panel">
+              <p>No products match these filters.</p>
+              <a href="{{ collection.url }}" class="dt-btn dt-btn--outline">Clear filters</a>
+            </div>
+          {%- endfor -%}
         </div>
-      </div>
-    {% endfor %}
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
+        {%- render 'pagination', paginate: paginate -%}
+
+        {%- if guide != blank -%}
+          <div class="dt-panel dt-guide">
+            <div class="dt-rte">{{ guide | metafield_tag }}</div>
+          </div>
+        {%- elsif section.settings.guide_heading != blank or section.settings.guide_text != blank -%}
+          <div class="dt-panel dt-guide">
+            {%- if section.settings.guide_heading != blank -%}
+              <h2 class="dt-h3">{{ section.settings.guide_heading | escape }}</h2>
+            {%- endif -%}
+            <div class="dt-rte">{{ section.settings.guide_text }}</div>
+          </div>
+        {%- endif -%}
+      </section>
+    </div>
+  {%- endpaginate -%}
 </div>
-
-{% stylesheet %}
-  .collection-products {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
-  "name": "t:general.collection",
-  "settings": []
+  "name": "Collection",
+  "settings": [
+    {
+      "type": "range",
+      "id": "per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "label": "Products per page",
+      "default": 12
+    },
+    {
+      "type": "header",
+      "content": "Buying guide box",
+      "info": "Shown under the grid. A collection's custom.buying_guide metafield (rich text) overrides this."
+    },
+    {
+      "type": "text",
+      "id": "guide_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "guide_text",
+      "label": "Text"
+    }
+  ]
 }
 {% endschema %}

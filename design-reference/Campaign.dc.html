@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Black Friday — campaign landing page</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+body{margin:0;background:#F2F2F3}
+a{color:#E8590C}a:hover{color:#9A3412}
+</style>
+</helmet>
+<div style="font-family: Inter, system-ui, sans-serif; color: #1F2125; background: #F2F2F3; min-height: 100vh">
+<dc-import name="Header" hint-size="100%,170px"></dc-import>
+
+<main>
+  <!-- HERO -->
+  <section style="background: #1F2125; color: #FFFFFF">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 88px 32px 80px; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #FF8A47">Fri, Nov 27 → Mon, Nov 30</span>
+      <h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 88px; line-height: 0.98; letter-spacing: -0.03em; max-width: 1000px">Black Friday<br>Build Week</h1>
+      <p style="margin: 0; color: #C4C5C8; font-size: 19px; line-height: 1.6; max-width: 640px">Our biggest prices of the year on graphics cards, processors and complete build bundles. Limited quantities — subscribers get first access.</p>
+      <div aria-label="Sale starts in" style="display: flex; gap: 12px">
+        <div style="width: 96px; padding: 14px 0; border-radius: 12px; background: #2A2D32; border: 1px solid #3A3D43"><div style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700">06</div><div style="font-size: 12px; color: #ABADB1">days</div></div>
+        <div style="width: 96px; padding: 14px 0; border-radius: 12px; background: #2A2D32; border: 1px solid #3A3D43"><div style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700">07</div><div style="font-size: 12px; color: #ABADB1">hours</div></div>
+        <div style="width: 96px; padding: 14px 0; border-radius: 12px; background: #2A2D32; border: 1px solid #3A3D43"><div style="font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700">47</div><div style="font-size: 12px; color: #ABADB1">minutes</div></div>
+      </div>
+      <form style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; width: 100%; max-width: 560px">
+        <label for="bf-email" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Email address</label>
+        <input id="bf-email" type="email" placeholder="Email for early access" style="flex: 1 1 260px; min-width: 0; height: 56px; border-radius: 10px; border: 1px solid #4A4E55; background: #2A2D32; color: #FFFFFF; padding: 0 18px; font: 400 16px Inter, sans-serif">
+        <button type="submit" style="height: 56px; padding: 0 28px; border: 0; border-radius: 10px; background: #FF6B1A; color: #1F2125; font: 600 16px Inter, sans-serif; cursor: pointer">Get early access</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- DEAL CATEGORIES -->
+  <section style="max-width: 1360px; margin: 0 auto; padding: 72px 32px 32px">
+    <h2 style="margin: 0 0 24px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Shop deals by category</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px">
+      <sc-for list="{{cats}}" as="c" hint-placeholder-count="8">
+        <a href="Collection.dc.html" style="display: flex; gap: 16px; align-items: center; padding: 20px; border-radius: 14px; background: #FFFFFF; border: 1px solid #DEDEE0; text-decoration: none; color: #1F2125">
+          <span style="width: 64px; height: 64px; flex: none; border-radius: 12px; background: #E9E9EA; display: flex; align-items: center; justify-content: center"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#1F2125" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{c.d}}"></path></svg></span>
+          <span style="display: flex; flex-direction: column; gap: 4px">
+            <span style="font-weight: 600; font-size: 17px">{{c.name}}</span>
+            <span style="font-size: 14px; font-weight: 600; color: #C2410C">Up to [X]% off</span>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- DOORBUSTERS -->
+  <section style="max-width: 1360px; margin: 0 auto; padding: 48px 32px">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 24px">
+      <div>
+        <h2 style="margin: 0 0 6px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Doorbusters</h2>
+        <p style="margin: 0; color: #5A5C61">Limited stock at these prices. Limit [2] per customer.</p>
+      </div>
+      <a href="Collection.dc.html" style="font-weight: 600; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center">See all deals →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px">
+      <sc-for list="{{deals}}" as="p" hint-placeholder-count="8">
+        <dc-import name="ProductCard" item="{{p}}" hint-size="100%,470px"></dc-import>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- BUNDLES -->
+  <section style="max-width: 1360px; margin: 0 auto; padding: 48px 32px">
+    <h2 style="margin: 0 0 6px; font-family: 'Space Grotesk', sans-serif; font-size: 36px">Build bundles</h2>
+    <p style="margin: 0 0 24px; color: #5A5C61">Pre-matched parts, checked for compatibility, priced together.</p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px">
+      <sc-for list="{{bundles}}" as="b" hint-placeholder-count="3">
+        <article style="background: #FFFFFF; border: 1px solid #DEDEE0; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 16px">
+          <span style="align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: #C2410C; background: #FFF1E8; padding: 5px 10px; border-radius: 6px">{{b.tag}}</span>
+          <h3 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 24px">{{b.name}}</h3>
+          <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 15px; color: #303236">
+            <sc-for list="{{b.parts}}" as="pt" hint-placeholder-count="3">
+              <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #15803D; font-weight: 700">✓</span>{{pt}}</li>
+            </sc-for>
+          </ul>
+          <div style="display: flex; align-items: baseline; gap: 10px; margin-top: auto; padding-top: 12px; border-top: 1px solid #DEDEE0">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: #C2410C">$[BUNDLE]</span>
+            <span style="font-size: 14px; color: #5A5C61">Save $[X] vs. separately</span>
+          </div>
+          <a href="Product.dc.html" style="display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 8px; background: #1F2125; color: #FFFFFF; text-decoration: none; font-weight: 600">View bundle</a>
+        </article>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- DEAL TERMS -->
+  <section style="max-width: 1360px; margin: 0 auto; padding: 48px 32px 96px">
+    <div style="background: #FFFFFF; border: 1px solid #DEDEE0; border-radius: 16px; padding: 36px; display: flex; flex-wrap: wrap; gap: 40px">
+      <h2 style="flex: 1 1 280px; margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 30px">Good to know</h2>
+      <dl style="flex: 999 1 560px; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px 40px">
+        <div><dt style="font-weight: 600; margin-bottom: 6px">Extended holiday returns</dt><dd style="margin: 0; color: #3E4045; line-height: 1.6">Purchases from Nov 27 to Dec 31 can be returned until [Jan 15, 2027].</dd></div>
+        <div><dt style="font-weight: 600; margin-bottom: 6px">Price adjustments</dt><dd style="margin: 0; color: #3E4045; line-height: 1.6">[Your policy on price drops during the sale window.]</dd></div>
+        <div><dt style="font-weight: 600; margin-bottom: 6px">Shipping cut-offs</dt><dd style="margin: 0; color: #3E4045; line-height: 1.6">Order by [Dec 17] for standard delivery before the holidays.</dd></div>
+        <div><dt style="font-weight: 600; margin-bottom: 6px">Quantity limits</dt><dd style="margin: 0; color: #3E4045; line-height: 1.6">Doorbusters are limited to [2] per customer, while stock lasts.</dd></div>
+      </dl>
+    </div>
+  </section>
+</main>
+
+<dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const I = {
+      gpu: 'M2 6h20v11H2z M11 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M19 11.5a3 3 0 1 1-6 0a3 3 0 1 1 6 0 M5 17v3h9v-3',
+      cpu: 'M6 6h12v12H6z M9 9h6v6H9z M9 2v4 M15 2v4 M9 18v4 M15 18v4 M2 9h4 M2 15h4 M18 9h4 M18 15h4',
+      mb: 'M3 3h18v18H3z M7 7h5v5H7z M15 7h2 M15 10h2 M7 16h10 M7 19h4 M16 13v1',
+      ram: 'M2 8h20v8H2z M5 11h2v2H5z M9 11h2v2H9z M13 11h2v2h-2z M17 11h2v2h-2z M4 16v3 M20 16v3 M12 16v2',
+      ssd: 'M3 8h18v8H3z M6 11h5v2H6z M14 11h1 M17 11h1 M14 13h1 M17 13h1 M21 10.5v3',
+      psu: 'M3 5h18v14H3z M14 12a4 4 0 1 1-8 0a4 4 0 1 1 8 0 M10 9v3 M17 9h1 M17 12h1 M17 15h1',
+      cs: 'M7 2h10v20H7z M10 5h4 M10 8h4 M14 17a2 2 0 1 1-4 0a2 2 0 1 1 4 0',
+      fan: 'M3 3h18v18H3z M14 12a2 2 0 1 1-4 0a2 2 0 1 1 4 0 M12 10c0-4 4-5 5-3 M14 12c4 0 5 4 3 5 M12 14c0 4-4 5-5 3 M10 12c-4 0-5-4-3-5'
+    };
+    const deal = (brand, name, specs, d) => ({ brand, name, specs, d, price: '$[DEAL]', compare: '$[WAS]', badge: 'Sale', stock: 'In stock' });
+    return {
+      cats: [
+        { name: 'Graphics Cards', d: I.gpu }, { name: 'Processors', d: I.cpu }, { name: 'Motherboards', d: I.mb }, { name: 'Memory', d: I.ram },
+        { name: 'Storage', d: I.ssd }, { name: 'Power Supplies', d: I.psu }, { name: 'Cases', d: I.cs }, { name: 'Cooling', d: I.fan }
+      ],
+      deals: [
+        deal('[Brand]', 'GeForce RTX 5070 12GB GDDR7', 'PCIe 5.0 · 12GB GDDR7 · 250W', I.gpu),
+        deal('[Brand]', 'Radeon RX 9070 XT 16GB GDDR6', 'PCIe 5.0 · 16GB GDDR6 · 304W', I.gpu),
+        deal('AMD', 'Ryzen 7 9800X3D Desktop Processor', '8C/16T · AM5 · 120W', I.cpu),
+        deal('[Brand]', 'B850 ATX Wi-Fi 7 Motherboard', 'AM5 · DDR5 · PCIe 5.0 M.2', I.mb),
+        deal('[Brand]', '32GB (2×16GB) DDR5-6000 CL30 Kit', 'DDR5 · 1.35V · EXPO/XMP', I.ram),
+        deal('[Brand]', '2TB PCIe 4.0 NVMe M.2 SSD', 'M.2 2280 · PCIe 4.0 ×4 · TLC', I.ssd),
+        deal('[Brand]', '850W 80+ Gold Fully Modular PSU', 'ATX 3.1 · 12V-2×6 · 850W', I.psu),
+        deal('[Brand]', '360mm AIO Liquid CPU Cooler', 'AM5 / LGA1851 · 3× 120mm', I.fan)
+      ],
+      bundles: [
+        { tag: '1440p gaming', name: 'AM5 Gaming Core', parts: ['Ryzen 7 9800X3D', 'B850 ATX motherboard', '32GB DDR5-6000 CL30'] },
+        { tag: 'Creator', name: 'Workstation Starter', parts: ['16-core desktop CPU', 'X870E motherboard', '64GB DDR5-6000', '2TB PCIe 5.0 SSD'] },
+        { tag: 'Budget', name: '1080p Value Build', parts: ['6-core desktop CPU', 'B650 mATX motherboard', '32GB DDR5-5600', 'Arc B580 12GB'] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

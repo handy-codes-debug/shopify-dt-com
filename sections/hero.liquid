@@ -1,0 +1,188 @@
+{% comment %}
+  Home hero: dark band with headline, CTAs, trust bullets, hero image and a
+  floating “Deal of the day” product card.
+{% endcomment %}
+
+{%- assign deal = section.settings.deal_product -%}
+
+<section class="dt-hero">
+  <div class="dt-container dt-hero__inner">
+    <div class="dt-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="dt-eyebrow dt-eyebrow--on-dark">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="dt-hero__title">
+        {{ section.settings.heading | escape }}
+        {%- if section.settings.heading_highlight != blank %}
+          <span class="dt-hero__highlight">{{ section.settings.heading_highlight | escape }}</span>
+        {%- endif -%}
+      </h1>
+      {%- if section.settings.text != blank -%}
+        <p class="dt-hero__text">{{ section.settings.text | escape }}</p>
+      {%- endif -%}
+
+      <div class="dt-btn-row">
+        {%- if section.settings.button_1_label != blank -%}
+          <a href="{{ section.settings.button_1_link | default: routes.all_products_collection_url }}" class="dt-btn dt-btn--accent dt-btn--lg">
+            {{- section.settings.button_1_label | escape -}}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.button_2_label != blank -%}
+          <a href="{{ section.settings.button_2_link | default: '#' }}" class="dt-btn dt-btn--ghost-dark dt-btn--lg">
+            {{- section.settings.button_2_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+
+      <ul class="dt-hero__bullets">
+        {%- if section.settings.bullet_1 != blank -%}
+          <li>{% render 'icon', name: 'truck', size: 18, stroke: 2 %}{{ section.settings.bullet_1 | escape }}</li>
+        {%- endif -%}
+        {%- if section.settings.bullet_2 != blank -%}
+          <li>{% render 'icon', name: 'shield', size: 18, stroke: 2 %}{{ section.settings.bullet_2 | escape }}</li>
+        {%- endif -%}
+        {%- if section.settings.bullet_3 != blank -%}
+          <li>{% render 'icon', name: 'return', size: 18, stroke: 2 %}{{ section.settings.bullet_3 | escape }}</li>
+        {%- endif -%}
+      </ul>
+    </div>
+
+    <div class="dt-hero__visual">
+      <div class="dt-hero__media">
+        {%- if section.settings.image -%}
+          {{
+            section.settings.image
+            | image_url: width: 1600
+            | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 990px) 50vw, 100vw', widths: '600, 900, 1200, 1600'
+          }}
+        {%- else -%}
+          <div class="dt-hero__placeholder">
+            {%- render 'icon', name: 'gpu', size: 200, stroke: 0.8 -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if deal != blank -%}
+        <a href="{{ deal.url }}" class="dt-hero__deal">
+          <span class="dt-hero__deal-thumb">
+            {%- if deal.featured_media -%}
+              {{ deal.featured_media | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}
+            {%- else -%}
+              {%- render 'icon', guess: deal.type, size: 28, stroke: 1.5 -%}
+            {%- endif -%}
+          </span>
+          <span class="dt-hero__deal-copy">
+            <span class="dt-hero__deal-label">{{ section.settings.deal_label | escape }}</span>
+            <span class="dt-hero__deal-title">{{ deal.title | escape }}</span>
+            <span class="dt-hero__deal-price">{{ deal.price | money }}</span>
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "dealtargets.com · PC components"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Lock onto better deals for your"
+    },
+    {
+      "type": "text",
+      "id": "heading_highlight",
+      "label": "Heading highlight (orange)",
+      "default": "next build."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Graphics cards, processors, motherboards, memory and more at sharp prices — with real specs, honest stock levels and help checking compatibility before you buy."
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Primary button label",
+      "default": "Shop all components"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Primary button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Secondary button label",
+      "default": "Get build help"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Trust bullets"
+    },
+    {
+      "type": "text",
+      "id": "bullet_1",
+      "label": "Bullet 1 (truck icon)",
+      "default": "Fast US shipping"
+    },
+    {
+      "type": "text",
+      "id": "bullet_2",
+      "label": "Bullet 2 (shield icon)",
+      "default": "Secure checkout"
+    },
+    {
+      "type": "text",
+      "id": "bullet_3",
+      "label": "Bullet 3 (return icon)",
+      "default": "30-day returns"
+    },
+    {
+      "type": "header",
+      "content": "Visual"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image",
+      "info": "1600 × 1000 recommended — product or build photo."
+    },
+    {
+      "type": "product",
+      "id": "deal_product",
+      "label": "Deal of the day product"
+    },
+    {
+      "type": "text",
+      "id": "deal_label",
+      "label": "Deal label",
+      "default": "Deal of the day"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "category": "DealTargets"
+    }
+  ]
+}
+{% endschema %}

@@ -14,10 +14,7 @@
     "header": {
       "type": "header",
       "settings": {
-        "menu": "main-menu",
-        "show_announcement": true,
-        "show_shop_all": true,
-        "highlight_title": "Deals"
+        "menu": "main-menu"
       }
     }
   },

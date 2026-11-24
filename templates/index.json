@@ -79,7 +79,7 @@
         "c1": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "video-cards-homepage",
             "title": "Graphics Cards",
             "short_label": "GPUs",
             "blurb": "From 1080p value cards to flagship 4K performance.",
@@ -89,7 +89,7 @@
         "c2": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "processors-homepage",
             "title": "Processors",
             "short_label": "CPUs",
             "blurb": "Intel and AMD desktop CPUs for gaming and work.",
@@ -99,7 +99,7 @@
         "c3": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "motherboards-homepage",
             "title": "Motherboards",
             "short_label": "motherboards",
             "blurb": "AM5, LGA1851 and more, in ATX, mATX and ITX.",
@@ -109,7 +109,7 @@
         "c4": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "memory-homepage",
             "title": "Memory",
             "short_label": "RAM",
             "blurb": "DDR5 and DDR4 kits, tuned for EXPO and XMP.",
@@ -119,7 +119,7 @@
         "c5": {
           "type": "collection",
           "settings": {
-            "collection": "",
+            "collection": "storage-homepage",
             "title": "Storage",
             "short_label": "storage",
             "blurb": "NVMe SSDs, SATA drives and high-capacity HDDs.",
@@ -129,9 +129,9 @@
         "c6": {
           "type": "collection",
           "settings": {
-            "collection": "",
-            "title": "Power Supplies",
-            "short_label": "PSUs",
+            "collection": "monitor-homepage",
+            "title": "Monitors",
+            "short_label": "Monitors",
             "blurb": "Efficiency-rated, modular units for every wattage.",
             "icon": "psu"
           }
@@ -139,9 +139,9 @@
         "c7": {
           "type": "collection",
           "settings": {
-            "collection": "",
-            "title": "Cases",
-            "short_label": "cases",
+            "collection": "desktop-pc-homepage",
+            "title": "Desktop PC",
+            "short_label": "PC",
             "blurb": "Airflow, compact and showcase cases.",
             "icon": "case"
           }
@@ -149,9 +149,9 @@
         "c8": {
           "type": "collection",
           "settings": {
-            "collection": "",
-            "title": "Cooling",
-            "short_label": "cooling",
+            "collection": "notebook-homepage",
+            "title": "Notebooks",
+            "short_label": "notebooks",
             "blurb": "Air coolers, AIO liquid coolers and case fans.",
             "icon": "cooling"
           }

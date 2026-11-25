@@ -19,7 +19,13 @@
   assign icon_name = name
   if icon_name == blank
     assign g = guess | downcase
-    if g contains 'graphic' or g contains 'gpu' or g contains 'video card'
+    if g contains 'monitor' or g contains 'display' or g contains 'screen'
+      assign icon_name = 'monitor'
+    elsif g contains 'notebook' or g contains 'laptop'
+      assign icon_name = 'laptop'
+    elsif g contains 'desktop' or g contains 'computer' or g contains 'gaming pc' or g == 'pc' or g == 'pcs'
+      assign icon_name = 'desktop'
+    elsif g contains 'graphic' or g contains 'gpu' or g contains 'video card'
       assign icon_name = 'gpu'
     elsif g contains 'processor' or g contains 'cpu'
       assign icon_name = 'cpu'
@@ -59,6 +65,12 @@
       assign d = 'M7 2h10v20H7z M10 5h4 M10 8h4 M14 17a2 2 0 1 1-4 0a2 2 0 1 1 4 0'
     when 'cooling'
       assign d = 'M3 3h18v18H3z M14 12a2 2 0 1 1-4 0a2 2 0 1 1 4 0 M12 10c0-4 4-5 5-3 M14 12c4 0 5 4 3 5 M12 14c0 4-4 5-5 3 M10 12c-4 0-5-4-3-5'
+    when 'monitor'
+      assign d = 'M3 4h18v12H3z M8 20h8 M12 16v4'
+    when 'desktop'
+      assign d = 'M2 5h12v9H2z M5 18h6 M8 14v4 M17 3h5v18h-5z M19.5 6.5h.01 M18.5 17h2'
+    when 'laptop'
+      assign d = 'M4 5h16v10H4z M2 19h20l-2-4H4z M10 17h4'
     when 'truck'
       assign d = 'M1 6h13v10H1z M14 9h4l3 3v4h-7 M5.5 19a2 2 0 1 0 0-4a2 2 0 0 0 0 4 M17.5 19a2 2 0 1 0 0-4a2 2 0 0 0 0 4'
     when 'shield'

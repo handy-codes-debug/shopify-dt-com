@@ -132,8 +132,8 @@
             "collection": "monitor-homepage",
             "title": "Monitors",
             "short_label": "Monitors",
-            "blurb": "Efficiency-rated, modular units for every wattage.",
-            "icon": "psu"
+            "blurb": "Gaming, office and creator displays from 1080p to 4K and ultrawide.",
+            "icon": "monitor"
           }
         },
         "c7": {
@@ -142,8 +142,8 @@
             "collection": "desktop-pc-homepage",
             "title": "Desktop PC",
             "short_label": "PC",
-            "blurb": "Airflow, compact and showcase cases.",
-            "icon": "case"
+            "blurb": "Prebuilt gaming and office desktops, ready to plug in and play.",
+            "icon": "desktop"
           }
         },
         "c8": {
@@ -152,8 +152,8 @@
             "collection": "notebook-homepage",
             "title": "Notebooks",
             "short_label": "notebooks",
-            "blurb": "Air coolers, AIO liquid coolers and case fans.",
-            "icon": "cooling"
+            "blurb": "Laptops for work, school and gaming on the go.",
+            "icon": "laptop"
           }
         }
       },

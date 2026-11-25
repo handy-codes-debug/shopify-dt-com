@@ -19,7 +19,7 @@
         "button_1_label": "Shop all components",
         "button_1_link": "/collections/all",
         "button_2_label": "Get build help",
-        "button_2_link": "",
+        "button_2_link": "shopify://pages/contact-us",
         "bullet_1": "Fast US shipping",
         "bullet_2": "Secure checkout",
         "bullet_3": "30-day returns",

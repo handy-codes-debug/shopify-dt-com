@@ -14,7 +14,17 @@
     "header": {
       "type": "header",
       "settings": {
-        "menu": "main-menu"
+        "show_announcement": true,
+        "announcement_left": "All prices in USD",
+        "announcement_text": "Select your components · Black Friday deals are on now!",
+        "announcement_link_label": "Shop deals",
+        "announcement_link": "",
+        "utility_menu": "",
+        "logo_width": 200,
+        "menu": "main-menu",
+        "show_shop_all": true,
+        "highlight_title": "Deals",
+        "wishlist_url": ""
       }
     }
   },
